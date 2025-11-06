@@ -1,0 +1,161 @@
+picotron cartridge // www.picotron.net
+version 2
+
+:: gfx/
+:: gfx/0.gfx
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTEwLTA0IDE4OjQ4OjAxIixtb2RpZmllZD0iMjAyNC0x
+MC0wNCAxOTo1NToxMCIscmV2aXNpb249MzBdXWx6NAB_AAAAEjEAAPMhe1swXT17Ym1wPXB4dQBD
+IBAQBPBWBxAHwBfQF8AHEAfwVixmbGFncz0wLHBhbl94CADLeT0wLHpvb209OH0sPgAf8DEA----
+------------------------------------------------------------11BtPTh9fQ==
+:: gfx/.info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTEwLTA0IDE5OjI3OjQ4Iixtb2RpZmllZD0iMjAyNC0x
+MC0wNCAxOTo1NToxMCJdXQ==
+:: map/
+:: map/0.map
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTEwLTA0IDE4OjQ4OjAxIixtb2RpZmllZD0iMjAyNC0x
+MC0wNCAxOTo1NToxMCIscmV2aXNpb249MjldXWx6NABoAAAAWBAAAPAIe3tibXA9dXNlcmRhdGEo
+ImkxNiIsMzIDAC8iMAEA--------------------_-EIIiksaGlkZGVuPWZhbHNlLHBhbl94PTAI
+ANJ5PTAsdGlsZV9oPTE2CgAQdwoAgHpvb209MX19
+:: map/.info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTEwLTA0IDE5OjI3OjQ4Iixtb2RpZmllZD0iMjAyNC0x
+MC0wNCAxOTo1NToxMCJdXQ==
+:: sfx/
+:: sfx/0.sfx
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTEwLTA0IDE4OjQ4OjAxIixtb2RpZmllZD0iMjAyNC0x
+MC0wNCAxOTo1NToxMCIscmV2aXNpb249NDBdXWx6NADiAAAAVgoAAP8wcHh1AAMoAAAEAAQPQBAC
+DgABoAEgAqAOAA8QAA3wygECA0APD5AEBQYHQAyQCAkKC0AMkA8MDw0PDgxADPD-AQDr8CSqARAG
+DzkQASABIAHwAAIQAg8zEAEgDyEgATAPYvDDDygP--DGD-gKD-8PgA-3Dw0B8AkyABcgMgAVDjEA
+H0AxAAYfDjAA------_NH-8BAKygyA9AAA8QQP--sMsAHwMOAAUQcAsAhiMACCAPMA--BABR--8p
+AA0CAPIA-SkPRA9DH0E-Q-0o8P_5OgAR-UcADwEA-9xQ-----5U=
+:: sfx/.info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTEwLTA0IDE5OjI3OjQ4Iixtb2RpZmllZD0iMjAyNC0x
+MC0wNCAxOTo1NToxMCJdXQ==
+:: main.lua
+--[[pod_format="raw",created="2024-10-04 18:48:01",modified="2024-10-04 19:55:10",revision=51]]
+function _init()
+	s=35 --spd
+	ti=s/120.4918 --tick interval 
+	ld={} --list dev
+	md=32 --max devs
+	ds=ti --eliminate!
+	sc=0 --score
+	ct=0 --current tick
+	nt=0 --next tick
+	cb=0 --current beat value
+	nb=0 --next beat value
+	ps={2,3,4,5} --player sound sfx
+	cs=6 --cue sfx
+	gs=7 --goal sfx
+	gc=0 --goal channel
+	pbs=1 --playback sfx
+	f=0 --player frame
+	rs=8 --number of rounds
+	r=0 --current round
+	g={0,0,24,0,0,0,24,0} 
+	c={0,0,0,0} 
+	pl={12,0,14,14,16,16,17,19}
+	
+	sfx(gs,0)
+	sfx(cs,3)
+	sfx(pbs,2)
+	lt=2 
+	bx=64 
+	by=128 
+	a=40 
+	b0=64 
+	pf=0 
+	pw=0.05 
+	gw=0.1 
+	mw=ti/2 
+	ht=0.8 
+	l=-1 
+	bl={}
+end
+function _update()
+ t0=t()
+ if f==0 then k=stat(400 + 0,  9) end
+ if k!=l then
+  if r>rs then f=1 sfx(0,0)sfx(0,1)sfx(0,2)sfx(0,3)end
+  if k==0 then r+=1 end
+  if g[k+1]>0 then cb=1 ct=t0 else cb=0 end
+  if g[((k+1)%#g)+1]>0 then nb=1 nt=t0+ti else nb=0 end
+  tn=(k+lt)%#g
+  if g[tn+1]>0 and r>1 then
+   add(bl,{s='i',st=t0,tt=lt*ti,th=0,x=0,y=0,h=false,d=nil})
+  end
+  l=k
+ end
+ for i=#bl,1,-1 do
+  b=bl[i]
+  if b.s=='i' then
+   p=(t0-b.st)/b.tt
+   a0=0.5*(1-p)
+   b.x=bx+a*cos(a0)
+   b.y=by+b0*sin(a0)
+   if p>=1.2 then
+    b.s='hm'
+    b.th=t0
+   end
+  elseif b.s=='hm' then
+   if t0-b.th>=ht then deli(bl,i)end
+  elseif b.s=='hp'or b.s=='hg'or b.s=='hm' then
+   if t0-b.th>=ht then deli(bl,i)end
+  end
+ end
+ if btnp(5)then 
+ 	f=0 r=0 sfx(gs,0)sfx(pbs,2)sfx(cs,3) sc=0 ld={}
+ end
+ if btnp(4) and f==0 then
+  pf=0 dv={}
+  if cb==1 then d0=t0-ct;if abs(d0)<=mw then add(dv,d0)end end
+  if nb==1 then d1=t0-nt;if abs(d1)<=mw then add(dv,d1)end end
+  if #dv>0 then d=dv[1]for i=2,#dv do if abs(dv[i])<abs(d)then d=dv[i]end end else d=mw end
+  sc+=1-abs(d)/mw
+  add(ld,d)if #ld>md then deli(ld,1)end
+  ad=abs(d)h=''
+  if ad<=pw then h='hp'sfx(ps[1],1)
+  elseif ad<=gw then h='hg'sfx(ps[2],1)
+  elseif ad<=mw then h='hm'sfx(ps[3],1)
+  else h='n'sfx(ps[4],1)end
+  for i=#bl,1,-1 do
+   b=bl[i]
+   if b.s=='i'and not b.h then
+    bd=t0-(b.st+b.tt)
+    if abs(bd)<=mw then b.s=h;b.th=t0;b.h=true;b.d=d;break end
+   end
+  end
+ end
+end
+function _draw()
+ cls(0)
+ print(k)
+ circfill(24,45,24,9)circfill(24,45,16,10)circfill(24,45,8,11)
+ if pf>10 then sspr(8,0,8,8,105,112,16,16)else sspr(16,0,8,8,105,112,16,16)end
+ pf+=1
+ line(24,80,24,80+md,5)
+ for i=1,#ld do d=ld[i];x=(d/ds)*32+24;y=i+79;pset(x,y,7)end
+ if f==1 then
+  print(flr(sc*10),21,43)
+ end
+ if f==0 then
+  for b in all(bl)do
+   if b.s=='i'then
+    circfill(b.x,b.y,4,8)
+   elseif b.s=='hp'or b.s=='hg' then
+    p=(t0-b.th)/ht
+    x=b.x-p*128*(b.d*2+1)
+    y=b.y-p*128*(-b.d*2+1)
+    circfill(x,y,4,10)
+    print(flr((1-abs(b.d)/mw)*10),21,43)
+   end
+  end
+ end
+end
+
+:: .info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTEwLTA0IDE5OjE2OjM2Iixtb2RpZmllZD0iMjAyNC0x
+MC0wNCAxOTo1NToxMCIscnVudGltZT0xMSx3b3Jrc3BhY2VzPXt7bG9jYXRpb249Im1haW4ubHVh
+Izc2Iix3b3Jrc3BhY2VfaW5kZXg9MX0se2xvY2F0aW9uPSJnZngvMC5nZngiLHdvcmtzcGFjZV9p
+bmRleD0yfSx7bG9jYXRpb249Im1hcC8wLm1hcCIsd29ya3NwYWNlX2luZGV4PTN9LHtsb2NhdGlv
+bj0ic2Z4LzAuc2Z4Iix3b3Jrc3BhY2VfaW5kZXg9NH19XV0=
+:: [eoc]

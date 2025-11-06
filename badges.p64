@@ -1,0 +1,105 @@
+picotron cartridge // www.picotron.net
+version 2
+
+:: gfx/
+:: gfx/0.gfx
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAxLTE3IDEwOjM1OjQ4Iixtb2RpZmllZD0iMjAyNS0w
+OC0yOSAyMToxNDo1MCIscmV2aXNpb249MjldXWx6NABXBQAAMjwAAPMhe1swXT17Ym1wPXB4dQBD
+IBAQBPBWBxAHwBfQF8AHEAfwVixmbGFncz0wLHBhbl94CADHeT0wLHpvb209OH0sPgDxCkBABPD-
+-8vc8B-8BPAbPNA88Bkc8AQc8BgGABAZEQDwExr8BvAb-ATwHRzQHPAfHLAc8CEckBzwIxxwHPAl
+HFAc8CYFABAlDwAQJAUAECMeABAiBQAQIS0AECAFAPIIH-wC8B78AvDjXPApjPAnLCA88CUcYCwx
+AGIkDIAs8CMFAPEDICwwHPAmTCAc8CYMEBwgHPApBQDwBgwwHPAoDDAs8CcMQBzwLhzwJQxgLAUA
+AH4A-wFALPAnHCAs8Chs8Co88P-QAAELHzQAAQCj---9vJC8kBzwAgcAQRxwHJAEAA8LAEk03HDc
+BwAf1RgBg-IR2yzwKTwQDPAmLFAM8BMs0ByADPASHBAMwAyQDPASDCAJAFQN-B3wCA0ABR8ARRMM
+ABwfALAJDPAADGA88BMc4AcAQRIMAAwJAAAcAPMDBwwAHAAMkDzwGwwADAAMEAyACwAgHAALAOAY
+-B3wBgwwDAAM8CkMIAcAESooAJDwJvwd8AsM8C8DAECQXPAcOgAwjPAaNgAASAE-GhyAYgJ64f98
+-CLQDPAgDNAMIAxAwwBhQAwgDPAIEQCb4AwgDIAcYBwwHwCVcAwQDEAMEAwgJgAKEgAGSQAEPgAA
+YgAAagC1IC8QEC4gDCAuEC4IAAAzAB8uFgBDHTACAB8gFgAxIvwiPQEfvHMBH-MME0zwJkxALPAf
+PMAs8Bks8AMc8BUs8Acc8BMMOALyAi4c8C0c8CRMICzwIxxAPPAkFgABBgACAwCPMAzwovwX8EkE
+AAAUliQAAicAIS8cAwAUXAkABBsA-wkuHPAYPPABHPAdPLAc8CJcICzwKizw-0-QACLqJVxALPAa
+jMAM8Bcc8AZpAAJsACAuDNwCjwzwJRwwPPAl0AABV2L8F-CJBAAUVhwADMgAESwJAAjIABAcRAEQ
+G08BryBcMDzwKEzw-47IAB8KAQAfAEEAHPBN9Qq89SD8BPUZ-Ar1FIy-D4z1EGz_BGz1DVz_CFz1
+C0z_DEz1CEz_EEz1BUz_Ekz1Azz_Fjz1ATz_GDzlPN7c3jzVLL78BL4sxSy_PN48viylPK4c-gQc
+rjyFPL4JAPo-vjx1LN483jzeLGU83vwG3jxVLP4AHA7cDhz_ACxFPP4BHN4c-gE8NSz_Axy_HP4D
+LDUs-gQcnhz_BCwlLP4GHH4c-gYsFSz_BxxeHP4HCgADHgAQBRQAcH4c-gdc-gY6ABYGCAAQBVQA
+FgUIAFUE-AL_BAcAFCoDAKEJXP4LXP4IjP4JTQA0LC48YQAibix-AAaJAGAGDI4s-gWdABAFCgAQ
+BLEAUAUMLiw_swDwAjU8-gdMLhz_AzxFLP4HDB4cDABQLFU8-gkKAPANAjxlLP4JDD4c-gIsdTz_
+Bww_LP4BPIU8-gUMTgUB8BSlLP4LHP4BLMUs-gEMbiz_ACzVPP4ADG4c-gA85TzuHE4s7nsBMO4c
+LgkAUANMzmzelwExzjzupAFBDEz1C7YBEQ3CAf8CEIy_jPUU-Ar1GfwE9SC89QoaAllw-ho81Sz_
+HMsAYB4spTz_HucAsCA8dSz_IixlPP4iBwIQJAACxiQ8NSw_vJ68nhw_LAoAcSUsThx_HJ4EAD9O
+LBUOABY1BSxeDgAvXlwMACA23H7cCAAv-iohAv---ysASA0f8DsNDA8xAP------------------
+-------------------------------------------MUG09OH19
+:: gfx/.info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA3LTE5IDEzOjMyOjM1Iixtb2RpZmllZD0iMjAyNS0w
+OC0yOSAyMToxNjoyNiJdXQ==
+:: map/
+:: map/0.map
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAxLTE3IDEwOjM1OjQ4Iixtb2RpZmllZD0iMjAyNS0w
+OC0xNSAxODoyNTowMCIscmV2aXNpb249M11dbHo0AGsAAABbEAAA8Ah7e2JtcD11c2VyZGF0YSgi
+aTE2IiwzMgMALyIwAQD--------------------78QgiKSxoaWRkZW49ZmFsc2UscGFuX3g9MAgA
+0nk9MCx0aWxlX2g9MTYKABB3CgCwem9vbT0wLjI1fX0-
+:: map/.info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA3LTE5IDEzOjMyOjM1Iixtb2RpZmllZD0iMjAyNS0w
+OC0yOSAyMToxNjoyNiJdXQ==
+:: sfx/
+:: sfx/0.sfx
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAxLTE3IDEwOjM1OjQ5Iixtb2RpZmllZD0iMjAyNS0w
+MS0xNyAxMDozNzo0NCIscmV2aXNpb249Ml1dbHo0AKAAAAALCgAA-zBweHUAAygAAAQABA9AEAIO
+AAGgASACoA4ADxAADfDKAQIDQA8PkAQFBgdADJAICQoLQAyQDwwPDQ8ODEAM8P8BAOv-J6oBEAYP
+IBABIAEgAfAAAhACDhABIA8hIAEwD0Dwww8oD--wxg-4Cg--D4AP9w8NAfAJARAGDjAA------_9
+H-8BAKzPyA9AAA8QQP--sPD-AQD-6lD-----KQ--
+:: sfx/.info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA3LTE5IDEzOjMyOjM1Iixtb2RpZmllZD0iMjAyNS0w
+OC0yOSAyMToxNjoyNiJdXQ==
+:: main.lua
+--[[pod_format="raw",created="2025-08-15 18:45:21",modified="2025-08-29 20:59:38",revision=40]]
+bdg = {
+	x = 480 / 2 - (64 * 2) / 2,
+	y = 50,
+	w = 64, --width
+	h = 64, --heigth
+	s = 2, -- scale
+	f = 3, -- frame size
+	nb = 7, -- number of badges
+	b = 1, -- current badge
+}
+
+colors = {
+	bckA = 5,
+	frm = 12,
+	bckB = 7,
+	cntnt = 9,
+}
+
+function _update()
+ if btnp(0) then
+ 	bdg.b -=	1
+ 	if bdg.b <= 0 then bdg.b = bdg.nb end
+ end
+ if btnp(1) then
+ 	bdg.b +=	1
+ 	if bdg.b > bdg.nb then bdg.b = 1 end
+ end
+end
+
+function _draw()
+	local x = bdg.x
+	local y = bdg.y
+	local w = bdg.w
+	local h = bdg.h
+	local s = bdg.s
+	local f = bdg.f
+	local b = bdg.b
+	
+	rectfill(x, y, x + w * s, y + h * s, colors.bckA)
+	circfill(x + w * s / 2, y + h * s / 2, w, colors.frm)
+	circfill(x + w * s / 2, y + h * s / 2, w-f*2, colors.bckB)
+	sspr(b, 0, 0, w, h, x, y, w* 2, h * 2)
+end
+:: .info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA3LTE5IDEzOjMyOjM1Iixtb2RpZmllZD0iMjAyNS0w
+OC0yOSAyMToxNjoyNiIscnVudGltZT0yMCx3b3Jrc3BhY2VzPXt7bG9jYXRpb249Im1haW4ubHVh
+IzgiLHdvcmtzcGFjZV9pbmRleD0xfSx7bG9jYXRpb249ImdmeC8wLmdmeCIsd29ya3NwYWNlX2lu
+ZGV4PTJ9LHtsb2NhdGlvbj0ibWFwLzAubWFwIix3b3Jrc3BhY2VfaW5kZXg9M30se2xvY2F0aW9u
+PSJzZngvMC5zZngiLHdvcmtzcGFjZV9pbmRleD00fX1dXQ==
+:: [eoc]

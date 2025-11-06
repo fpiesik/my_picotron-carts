@@ -1,0 +1,316 @@
+picotron cartridge // www.picotron.net
+version 2
+
+:: gfx/
+:: gfx/0.gfx
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTEwLTAxIDE4OjE1OjQyIixtb2RpZmllZD0iMjAyNC0x
+MC0wMSAxOToxOToxNyIscmV2aXNpb249MzFdXWx6NAB_AAAAEjEAAPMhe1swXT17Ym1wPXB4dQBD
+IBAQBPBWBxAHwBfQF8AHEAfwVixmbGFncz0wLHBhbl94CADLeT0wLHpvb209OH0sPgAf8DEA----
+------------------------------------------------------------11BtPTh9fQ==
+:: gfx/.info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTEwLTAxIDE5OjE5OjE4Iixtb2RpZmllZD0iMjAyNC0x
+MC0wMSAxOToxOToxOCJdXQ==
+:: map/
+:: map/0.map
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTEwLTAxIDE4OjE1OjQyIixtb2RpZmllZD0iMjAyNC0x
+MC0wMSAxOToxOToxNyIscmV2aXNpb249MzBdXWx6NABaAAAASxAAAPAIe3tibXA9dXNlcmRhdGEo
+ImkxNiIsMzIDAC8iMAEA--------------------_6EiKSxwYW5feD0wCADSeT0wLHRpbGVfaD0x
+NgoAEHcKAIB6b29tPTF9fQ==
+:: map/.info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTEwLTAxIDE5OjE5OjE4Iixtb2RpZmllZD0iMjAyNC0x
+MC0wMSAxOToxOToxOCJdXQ==
+:: sfx/
+:: sfx/0.sfx
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTEwLTAxIDE4OjE1OjQyIixtb2RpZmllZD0iMjAyNC0x
+MC0wMSAxOToxOToxNyIscmV2aXNpb249NDBdXWx6NADHAAAAKwoAAP8wcHh1AAMoAAAEAAQPQBAC
+DgABoAEgAqAOAA8QAA3wygECA0APD5AEBQYHQAyQCAkKC0AMkA8MDw0PDgxADPD-AQDr-yeqARAG
+DyAQASABIAHwAAIQAg4QASAPISABMA_K8MMPKA--8MYP_AoP-w_AD-cPDQHwCQEQBg4wAAIfQDAA
+------_nH-8BAKzwFcgPQAAPGgAIIA8wDzIPNA81DzcPOQ87Dzz--yhw-Sh_-SjwcCMAbxBA-bDw
+-wEA-_hQ-----98=
+:: sfx/.info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTEwLTAxIDE5OjE5OjE4Iixtb2RpZmllZD0iMjAyNC0x
+MC0wMSAxOToxOToxOCJdXQ==
+:: main.lua
+--[[pod_format="raw",created="2024-10-01 18:15:42",modified="2024-10-01 19:19:17",revision=52]]
+function _init()
+	spd = 35
+	bpm = 60 / (spd / 120.4918 * 4)
+	tick_int = (spd / 120.4918)
+	dev_list = {}
+	max_dev = 32
+	dv_scl = tick_int
+	scr=0
+	cur_bt_t = 0
+	next_bt_t = 0
+	prev_bt_t = 0
+	cur_bt = 0
+	next_bt = 0
+	prev_bt = 0
+	pl_sfx = {2,3,4,5}
+	cu_sfx = 6
+	gl_sfx = 0
+	plb_sfx = 1
+	fin = 0
+	rnds = 8
+	rnd = 0
+	goal = {0,0,24,0,0,0,26,0}
+	plbck = {12, 12, 14, 14, 16, 16, 17, 19}
+	mk_bt(goal, gl_sfx)
+	mk_bt(plbck, plb_sfx)
+	sfx(gl_sfx, 0)
+	sfx(plb_sfx, 2)
+	set_note(pl_sfx[1], 0, mk_note(36, 1, 7, 1))
+	set_note(pl_sfx[2], 0, mk_note(36, 1, 7, 3))
+	set_note(pl_sfx[3], 0, mk_note(35, 1, 7, 0))
+	set_note(pl_sfx[4], 0, mk_note(34, 1, 7, 0))
+
+	set_note(cu_sfx, 0, mk_note(24, 4, 7, 0))
+
+	ball_lead_ticks = 2 
+	x_center = 64
+	y_center = 128
+	a = 40
+	b = 64
+	
+	pl_frm = 0
+
+	perfect_window = 0.05
+	good_window = 0.1
+	max_win = tick_int/2
+	hit_tm = 0.8
+	last_tick = -1
+	balls = {} 
+end
+
+function _update60()
+	cur_t = t()
+	if fin == 0 then cur_tick = stat(50) end
+	if cur_tick != last_tick then
+		prev_bt_t = cur_bt_t
+		if cur_tick == 0 then rnd+=1 end
+		if rnd > rnds then 
+			fin=1
+			sfx(0,0)
+			sfx(0,1)
+			sfx(0,2)
+			sfx(0,3)
+		end
+		if goal[cur_tick + 1] > 0 then
+			cur_bt = 1
+			cur_bt_t = cur_t
+		else
+			cur_bt = 0
+		end
+		if goal[((cur_tick + 1) % #goal) + 1] > 0 then
+			next_bt = 1
+			next_bt_t = cur_t + tick_int
+		else
+			next_bt = 0
+		end
+		next_tick = (cur_tick + ball_lead_ticks) % #goal
+		if goal[next_tick + 1] > 0 then
+			sfx(cu_sfx,3)
+			local new_ball = {
+				state = "incoming",
+				start_time = cur_t,
+				total_time = ball_lead_ticks * tick_int,
+				hit_start_time = 0,
+				x = 0,
+				y = 0,
+				hit = false,
+				dev = nil
+			}
+			add(balls, new_ball)
+		end
+
+		last_tick = cur_tick
+	end
+
+	for i = #balls, 1, -1 do
+		local ball = balls[i]
+		if ball.state == "incoming" then
+			local progress = (cur_t - ball.start_time) / ball.total_time
+			local angle = 0.5 * (1 - progress)
+			ball.x = x_center + a * cos(angle)
+			ball.y = y_center + b * sin(angle)
+			if progress >= 1.2 then
+				ball.state = "missed_hit"
+				ball.hit_start_time = cur_t
+				--scr = scr+max_win
+			end
+		elseif ball.state == "missed_hit" then
+			if cur_t - ball.hit_start_time >= hit_tm then
+				deli(balls, i)
+			end
+		elseif ball.state == "perfect_hit" or ball.state == "good_hit" or ball.state == "missed_hit" then
+			if cur_t - ball.hit_start_time >= hit_tm then
+				deli(balls, i)
+			end
+		end
+	end
+
+	if btnp(4) then
+	pl_frm=0
+	local devs = {}
+	if cur_bt == 1 then
+		local dev_cur = cur_t - cur_bt_t
+		if abs(dev_cur) <= max_win then
+			add(devs, dev_cur)
+		end
+	end
+	if next_bt == 1 then
+		local dev_next = cur_t - next_bt_t
+		if abs(dev_next) <= max_win then
+			add(devs, dev_next)
+		end
+	end
+
+	if #devs > 0 then
+		dev = devs[1]
+		for i = 2, #devs do
+			if abs(devs[i]) < abs(dev) then
+				dev = devs[i]
+			end
+		end
+	else
+		dev = max_win
+	end
+	scr = scr+1-abs(dev)/max_win
+	add(dev_list, dev)
+	if #dev_list > max_dev then
+		deli(dev_list, 1)
+	end
+
+	local abs_dev = abs(dev)
+	local hit_type = ""
+	if abs_dev <= perfect_window then
+		hit_type = "perfect_hit"
+		sfx(pl_sfx[1], 1)
+	elseif abs_dev <= good_window then
+		hit_type = "good_hit"
+		sfx(pl_sfx[2], 1)
+	elseif abs_dev <= max_win then
+		hit_type = "missed_hit"
+		sfx(pl_sfx[3], 1)
+	else
+		hit_type = "no_hit"
+		sfx(pl_sfx[4], 1)
+	end
+
+	for i = #balls, 1, -1 do
+		local ball = balls[i]
+		if ball.state == "incoming" and not ball.hit then
+			local ball_dev = cur_t - (ball.start_time + ball.total_time)
+			if abs(ball_dev) <= max_win then
+				ball.state = hit_type
+				ball.hit_start_time = cur_t
+				ball.hit = true
+				ball.dev = dev
+				break
+			end
+		end
+	end
+end
+
+end
+
+function _draw()
+	cls(1)
+	line(64, 0, 64, 32, 6)
+	line(64, 32, 128, 32, 6)
+	line(96, 0, 96, 32, 6)
+	line(127, 0, 127, 32, 6)
+	--print(cur_t)
+	--print(scr)
+	--print(rnd)
+	for i = 1, #dev_list do
+		local d = dev_list[i]
+		local x = (d / dv_scl) * 32 + 96
+		local y = i - 1
+		pset(x, y, 7)
+	end
+
+	if fin==1 then
+		print("du hast",45,45)
+		print(flr(scr*10))
+		print("punkte!")
+ end
+
+	if fin==0 then
+		circfill(12, 37, 12, 11)
+		circfill(12, 37, 8, 10)
+		circfill(12, 37, 4, 9)
+		if pl_frm>10 then
+			spr(1,110,110,2,2)
+		else
+			spr(3,110,110,2,2)
+		end
+		pl_frm+=1
+		
+		for ball in all(balls) do
+			if ball.state == "incoming" then 
+				circfill(ball.x, ball.y, 4, 8)
+			elseif ball.state == "perfect_hit" then
+				local progress = (cur_t - ball.hit_start_time) / hit_tm
+				local x = ball.x - progress * 128 * (ball.dev*2+1)
+				local y = ball.y - progress * 128 * (-ball.dev*2+1)
+				print(flr((1-abs(ball.dev)/max_win)*10))
+				circfill(x, y, 4, 10)
+			elseif ball.state == "good_hit" then
+				local progress = (cur_t - ball.hit_start_time) / hit_tm
+				local x = ball.x - progress * 128 * (ball.dev+1)
+				local y = ball.y - progress * 128 * (-ball.dev+1)
+				print(flr((1-abs(ball.dev)/max_win)*10))
+				circfill(x, y, 4, 9)
+			elseif ball.state == "missed_hit" or ball.state == "missed" then
+				local progress = (cur_t - ball.hit_start_time) / hit_tm
+				local x = ball.x + progress * 64
+				local y = ball.y + progress * 64
+				if ball.state == "missed_hit" then print(flr((1-abs(ball.dev)/max_win)*10)) end
+				circfill(x, y, 4, 8)
+			end
+		end
+	end
+end
+function mk_bt(pttn, sfx_n)
+	set_spd(sfx_n, spd)
+	set_loop(sfx_n, 0, #pttn)
+	for i = 1, #pttn do
+		if pttn[i] > 0 then
+			set_note(sfx_n, i - 1, mk_note(pttn[i], 1, 7, 0))
+		end
+	end
+end
+
+function mk_note(pitch, instr, vol, effect)
+	return { pitch + ((instr % 4) << 6), (instr \ 8 << 7) + (effect << 4) + (vol << 1) + (instr % 8) \ 4 }
+end
+function set_note(sfx, time, note)
+	local addr = 0x3200 + 68 * sfx + 2 * time
+	poke(addr, note[1])
+	poke(addr + 1, note[2])
+end
+function set_spd(sfx, speed)
+	poke(0x3200 + 68 * sfx + 65, speed)
+end
+function set_loop(sfx, start, en)
+	local addr = 0x3200 + 68 * sfx
+	poke(addr + 66, start)
+	poke(addr + 67, en)
+end
+
+function _init()
+	sfx(0,0) 
+end
+
+function _draw()
+	cls()
+	print(stat(400,9))
+end
+:: .info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTEwLTAxIDE5OjE5OjE4Iixtb2RpZmllZD0iMjAyNC0x
+MC0wMSAxOToxOToxOCIscnVudGltZT0xMSx3b3Jrc3BhY2VzPXt7bG9jYXRpb249Im1haW4ubHVh
+IzEiLHdvcmtzcGFjZV9pbmRleD0xfSx7bG9jYXRpb249ImdmeC8wLmdmeCIsd29ya3NwYWNlX2lu
+ZGV4PTJ9LHtsb2NhdGlvbj0ibWFwLzAubWFwIix3b3Jrc3BhY2VfaW5kZXg9M30se2xvY2F0aW9u
+PSJzZngvMC5zZngiLHdvcmtzcGFjZV9pbmRleD00fX1dXQ==
+:: [eoc]

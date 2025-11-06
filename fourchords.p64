@@ -1,0 +1,794 @@
+picotron cartridge // www.picotron.net
+version 2
+
+:: gfx/
+:: gfx/0.gfx
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAyLTA5IDExOjA4OjQ3Iixtb2RpZmllZD0iMjAyNS0w
+NS0xMiAxNTo0MToxNyIscmV2aXNpb249MTM2Nl1dbHo0AIYAAAAVMQAA8yF7WzBdPXtibXA9cHh1
+AEMgEBAE8FYHEAfAF9AXwAcQB-BWLGZsYWdzPTAscGFuX3gIAMt5PTAsem9vbT04fSw_AE96B-Bl
+NAAdH-AxAP---------------------------------------------------------------6ZQ
+bT04fX0=
+:: gfx/.info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAyLTA5IDEyOjQ4OjM1Iixtb2RpZmllZD0iMjAyNS0w
+NS0xMiAxNTo0MToxOCJdXQ==
+:: lib/
+:: lib/pq.lua
+--[[pod_format="raw",created="2024-03-21 09:14:17",modified="2024-03-27 04:33:12",revision=3]]
+-- pq-debugging, by @pancelor
+-- quotes all args and prints to host console
+-- usage:
+--   pq("handles nils", many_vars, {tables=1, work=11, too=111})
+--   rectfill(pq(x,y,x+7,y+7,13))
+function pq(...)
+	printh(qq(...))
+	return ...
+end
+
+-- pq(), and also notify()
+function pqn(...)
+	local s=qq(...)
+	notify(s)
+	printh(s)
+	return ...
+end
+
+-- quotes all arguments into a string
+-- usage:
+--   ?qq("p.x=",x,"p.y=",y)
+function qq(...)
+	local s={}
+	for i=1,select("#",...) do
+		local arg=select(i,...) --NOTE: select is multi-return
+		add(s,(quote(arg))) --extra parens are necessary: https://www.lexaloffle.com/bbs/?tid=141267
+	end
+	return table.concat(s," ")
+end
+
+-- quote a single thing
+-- like tostr() but for tables
+-- don't call this directly; call pq or qq instead
+function quote(t, depth)
+	depth=depth or 4 --avoid inf loop
+	if type(t)~="table" or depth<=0 then return tostr(t) end
+
+	local s={}
+	for k,v in pairs(t) do
+		add(s,tostr(k).."="..quote(v,depth-1))
+	end
+	return "{"..table.concat(s,",").."}"
+end
+
+
+
+-- hex
+function qx(x)
+	return string.format("%x%s",flr(x),x==flr(x) and "" or "*")
+end
+
+-- formatted
+function qf(fmt,...)
+	return string.format(fmt,...)
+end
+function pqf(...)
+	printh(qf(...))
+end
+
+:: lib/.info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTAzLTIyIDEzOjI5OjQzIixtb2RpZmllZD0iMjAyNS0w
+NS0xMiAxNTo0MToxOCIsc3RvcmVkPSIyMDI0LTAzLTIyIDEzOjI5OjQzIl1d
+:: map/
+:: map/0.map
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAyLTA5IDExOjA4OjQ3Iixtb2RpZmllZD0iMjAyNS0w
+NS0xMiAxNTo0MToxNyIscmV2aXNpb249MTM2NF1dbHo0AGgAAABYEAAA8Ah7e2JtcD11c2VyZGF0
+YSgiaTE2IiwzMgMALyIwAQD--------------------78QgiKSxoaWRkZW49ZmFsc2UscGFuX3g9
+MAgA0nk9MCx0aWxlX2g9MTYKABB3CgCAem9vbT0xfX0=
+:: map/.info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAyLTA5IDEyOjQ4OjM1Iixtb2RpZmllZD0iMjAyNS0w
+NS0xMiAxNTo0MToxOCJdXQ==
+:: sfx/
+:: sfx/0.sfx
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAyLTA5IDExOjA4OjQ3Iixtb2RpZmllZD0iMjAyNS0w
+NS0xMiAxNTo0MToxNyIscmV2aXNpb249MTQwN11dbHo0ADcDAACvDwAA8htweHUAAygAAAQABA9A
+EAIOAAGgASACoA4ADxAADfDKAQIDBAUGBwEP-6ALAD0IAAwKAF8HAgzw-wEA6-8xqgEQBg8gEAEg
+ASAB8AACEAILEAEgDyEgATAO8MMPKAwPOvDFD-gPCgwPgA-3Dw0BcA9wD2kPYQ9uD2_wARAGCzoA
+ByrwxjgAz2cPdQ9pD3QPYQ9yoDoAG29iD2Efc8A0AAlcNw_qDxypAJ92D28PYw9hD2ypABov8Aku
+AOdUJQ-cABEwAHoFDwsAHPCtVAF5aw9pD2MPa40BJQ8SPwAQ1D8A_g6gAhAGCwACASABD-QQAfCo
+DxEADwvwBhzwBQfwl08AMHMPbhACLw9lowEcDy4A----WR--AQCs8wPIDgANQH8kfH8rfH8tfH8p
+fHACABN7AgAh8HAiAHAofH8vfH8wJQAfcCIAA3ArfH8yfH80JQAfcCIAAiH8sAgAXwAIIAosAgAL
+Tw8KLAkCAAofCwIADARpALk8CvwvDwv8Lwv8K4QAM0AKDAIAkSwPMgwPLywDDAIA4CwKDA80LApM
+Dy0MCkwEHgABDgAyAwwFAgATLAQABgwAMUwFDAQAECwMACMLDAIAEywEAAYMAAAcABFMCgAyLAtM
+hADzAw83LA81LA80DA8yLANsDysMBwIACBkAUwT8AQUsbAA1bAUMAgAEFABD-AELLGMANWwLDAIA
+BBQAIPwBbADwAQsADiAPJAwPJQwPJgwPJwy3CEApDA8qbADgLAwEDA8uDAMMCgwPMQwOASAzDHsA
+-wo1DA82DA83DA84DA85DA86DA87DA887AUMAgAcP_wLDAIAHBrsqwEPCAAQRv---wMLACT-TAwA
+HrkwAA8IAAou-7lRAA0kAAhhAAEBAB7eIgAPgwAPD2sAHQwcAA9tAAoOFQAPMgAEH3AcAAAP0QAC
+HgMLAA8eAAM---_VeQASDwgAJBj-AQAcTWoAFP8BAB9xcwAACAwAD1cAAh_VHQARF-8BAB8EMQAE
+H3AtAQgfuVUABBwDIQAccDoABiQAHnAIAA88AAMPoAIQDiIADwgAIC7-uYIAD9oAFx9wNAAwBzwA
+DwEAn1D-----KQ==
+:: sfx/.info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAyLTA5IDEyOjQ4OjM1Iixtb2RpZmllZD0iMjAyNS0w
+NS0xMiAxNTo0MToxOCJdXQ==
+:: bass.lua
+--[[pod_format="raw",created="2025-04-24 16:09:18",modified="2025-05-12 15:41:17",revision=521]]
+bass= {
+	n_frts = 6, --number of frets
+	n_actfr =4,
+	n_strs = 4, -- number of strings
+	tuning = {43,38,33,28},
+	--n_oct=2, --number of octaves
+	p_frts = {0,30,60,90,120,150,180}, --position of frets
+	h_neck = {45,50},
+	x = 85,
+	y = 130,
+	a={1,0,0,0,0,0,0,0}, --track is active
+	non={0,0,0,0,0,0,0,0}, --note on
+	pitch={0,0,0,0,0,0,0,0},
+	frt={0,0,0,0,0,0,0,0},
+	str={1,1,1,1,1,1,1,1},
+	trnsp={0,0,0,0,0,0,0,0},
+	upd=function(s,t)
+		local strs=s.n_strs
+		local frts=s.n_actfr
+		local trnsp=s.trnsp[t]
+		if s.a[t]==1 then
+			if track_p[t]!=255  and track_p[t]!=0 then
+				s.non[t]=1
+			else
+				s.non[t]=0
+			end
+			if s.non[t]==1 then
+				s.pitch[t] = track_p[t]
+				--s.str[t]=strs
+				for str=strs,1,-1 do
+					if s.pitch[t]>s.tuning[str]+trnsp+frts then 
+						s.str[t]=str-1
+					end 
+					if s.str[t]<=0 then s.str[t]=1 end
+					--if s.str[t]> s.n_strs then s.str[t]=s.n_strs end
+				end
+				s.frt[t]=s.pitch[t]-s.tuning[s.str[t]]-trnsp
+			end
+		end
+	end,
+	drw_neck = function(s,x,y)
+		strs = s.n_strs
+		frts = s.n_frts
+		local strsp=s.h_neck[1]/strs
+		for frt=1,frts do
+			if (frt!=0) rectfill(x+s.p_frts[frt],y,x+s.p_frts[frt+1],y+s.h_neck[1],frt*3)
+		end
+		for str=1,strs do
+			line(x,y+str*strsp-strsp/2,x+s.p_frts[frts+1],y+str*strsp-strsp/2,7)
+		end
+	end, 
+	drw_nts = function(s,t,x,y)
+		local strs = s.n_strs
+		local c = 26
+		if s.a[t]==1 and s.non[t]==1 then
+			local strsp=s.h_neck[1]/strs --calc string spacing
+			if s.frt[t] >= 1 and s.frt[t] <= s.n_frts then 
+					x = x+s.p_frts[s.frt[t]+1]
+				elseif s.frt[t] >= s.n_frts then 
+					x = x+s.p_frts[s.n_frts]
+				else
+					x = x
+				end
+			local y=y+s.str[t]*strsp-strsp/2
+			local r=4
+			circfill(x-r,y,r,c)
+			--?s.frt[t]
+			--?s.str[t]
+		end
+	end,
+}
+:: game.lua
+b64$LS1bW3BvZF9mb3JtYXQ9InJhdyIsY3JlYXRlZD0iMjAyNS0wMi0xNiAxMDoyMTowOCIsbW9k
+aWZpZWQ9IjIwMjUtMDUtMTIgMTU6NDE6MTciLHJldmlzaW9uPTE0ODddXQotLSBtdXNpYyBieSBp
+YW90aDogaHR0cHM6Ly93d3cubGV4YWxvZmZsZS5jb20vYmJzLz9waWQ9NTE0NjAKLS0gdXNlZCB1
+bmRlciBDQzQtQlktTkMtU0EKLS0gKG5vdGU6IHRoaXMgbGljZW5zZSBpcyBkaWZmZXJlbnQgZnJv
+bSB0aGUgbGljZW5zZSBmb3IgbXkgc2Z4ZGF0YS5sdWEgY29kZSwKLS0gICB3aGljaCBpcyB3aGF0
+IHRoaXMgY2FydCBpcyBtZWFudCB0byBzaG93IG9mZikKZmV0Y2giL3N5c3RlbS9mb250cy9saWxf
+bW9uby5mb250Ijpwb2tlKDB4NDAwMCkKbm90ZV9uYW1lcz1zcGxpdCJjLGMjLGQsZCMsZSxmLGYj
+LGcsZyMsYSxhIyxiIgpzcGQgPSAzMApyb3cgPSB7MCwwLDAsMCwwLDAsMCwwfQpjb2xsID0gMCAt
+LWNvbGx1bW4gKHdoYXQgdXN1YWxseSB0cmFjayBtZWFucykKdHJhY2sgPSA4CnJvd19sc3QgPSB7
+LTEsLTEsLTEsLTEsLTEsLTEsLTEsLTF9CnJvd190ID0gezAsMCwwLDAsMCwwLDAsMH0KdHJhY2tf
+cCA9IHswLDAsMCwwLDAsMCwwLDB9IC0tdHJhY2sgcGl0Y2gKdHJhY2tfcG49IHswLDAsMCwwLDAs
+MCwwLDB9IC0tdHJhY2sgbmV4dCBwaXRjaAp0cmFja19wbCA9IHswLDAsMCwwLDAsMCwwLDB9IC0t
+bGFzdCB0cmFjayBwaXRjaAp0cmFja19wbmw9IHswLDAsMCwwLDAsMCwwLDB9IC0tbGFzdCB0cmFj
+ayBuZXh0IHBpdGNoCnRyYWNrX2MgPSB7MCwwLDAsMCwwLDAsMCwwfSAtLSBjdXJyZW50IHRyYWNr
+CnRyYWNrX2wgPSB7MCwwLDAsMCwwLDAsMCwwfSAtLSB0cmFjayBsZW5ndGgKdHJhY2tfbF90ID0g
+ezAsMCwwLDAsMCwwLDAsMH0gLS10cmFja19sX3QKdHJhY2tfbiA9IHswLDAsMCwwLDAsMCwwLDB9
+IC0tIG5leHQgdHJhY2sKdHJhY2tfdCA9IHswLDAsMCwwLDAsMCwwLDB9ICAtLSB0cmFjayB0aWNr
+CnRyYWNrX3RsID0gezAsMCwwLDAsMCwwLDAsMH0gLS0gbGFzdCB0cmFjayB0aWNrCnRyYWNrX3R0
+ID0gezAsMCwwLDAsMCwwLDAsMH0KLS10cmFja190cyA9IDAgLS0KcGF0dF9jID0gMCAtLWN1cnJl
+bnQgcGF0dGVybgpwYXR0X2xzdCA9IDAgLS1sYXN0IHBhdHRlcm5zCm50ZV90ID0gezAsMCwwLDAs
+MCwwLDAsMH0gLS0gbm90ZSB0aWNrCm50ZV90biA9IHswLDAsMCwwLDAsMCwwLDB9IC0tIG5leHQg
+bm90ZSB0aWNrCmh0X3QgPSB7MCwwLDAsMCwwLDAsMCwwfSAtLSBoaXQgdGljawpkZXZfYyA9IHsw
+LDAsMCwwLDAsMCwwLDB9IC0tZGV2ZWF0aW9uIHRvIGN1cnJlbnQgbm90ZQpkZXZfbiA9IHswLDAs
+MCwwLDAsMCwwLDB9IC0tZGV2aWF0aW9uIHRvIG5leHQgbm90ZQpkZXYgPSB7MCwwLDAsMCwwLDAs
+MCwwfQpkZXZfbCA9IHt9CmRldl9sbSA9IDY0IC0tZGV2ZWF0aW9uIGxpc3QgbWF4CmRldl9zID0g
+MwoKZnVuY3Rpb24gdXBkX3NmeHN0KHQpCglwYXR0X2xzdCA9IHBhdHRfYwoJcGF0dF9jID0gc3Rh
+dCg0NjYpCgkKCXRyYWNrX3RbdF0gPSBzdGF0KDQwMCArIHQtMSwxMSkKCWlmIHRyYWNrX3RbdF0g
+PT0gdHJhY2tfdGxbdF0gdGhlbiAKCQl0cmFja190dFt0XSArPSAyIAoJZWxzZSAKCQl0cmFja190
+dFt0XT10cmFja190W3RdCgllbmQKCXRyYWNrX3RsW3RdID0gdHJhY2tfdFt0XSAgCgkKCXJvd1t0
+XSA9IGZscigodHJhY2tfdFt0XSkvc3BkKS0tc3RhdCg0MDAgKyAwLDkpCgktLWlmIHJvdyA8IDAg
+dGhlbiByb3cgPSAwIGVuZAoJcm93X3RbdF0gPSBzdGF0KDQwMCArIHQtMSwxMCkKCXRyYWNrX2Nb
+dF0gPSBwYXR0ZXJuX3JlYWQocGF0dF9jKS50cmFja3NbdF0KCXRyYWNrX25bdF0gPSBwYXR0ZXJu
+X3JlYWQocGF0dF9jICsgMSkudHJhY2tzW3RdCgl0cmFja19sW3RdPSB0cmFja19yZWFkKHRyYWNr
+X2NbdF0pLmxvb3AwCgl0cmFja19sX3RbdF0gPSB0cmFja19sW3RdKnNwZAoKCQoJaWYgcm93W3Rd
+PT10cmFja19sW3RdLTEgdGhlbiAKCQl0cmFja19wW3RdID0gdHJhY2tfcm93X3JlYWQodHJhY2tf
+Y1t0XSxyb3dbdF0pLnBpdGNoCgkJdHJhY2tfcG5bdF0gPSB0cmFja19yb3dfcmVhZCh0cmFja19u
+W3RdLChyb3dbdF0rMSkldHJhY2tfbFt0XSkucGl0Y2gKCWVsc2UKCQl0cmFja19wW3RdID0gdHJh
+Y2tfcm93X3JlYWQodHJhY2tfY1t0XSxyb3dbdF0pLnBpdGNoCgkJdHJhY2tfcG5bdF0gPSB0cmFj
+a19yb3dfcmVhZCh0cmFja19jW3RdLChyb3dbdF0rMSkldHJhY2tfbFt0XSkucGl0Y2gKCWVuZAoJ
+aWYgdHJhY2tfcFt0XSE9MjU1IGFuZCByb3dbdF0hPXJvd19sc3RbdF0gdGhlbgoJCW50ZV90W3Rd
+ID0gdHJhY2tfdHRbdF0gLS1yb3cgKiBzcGQgCgllbmQKCWlmIHRyYWNrX3BuW3RdIT0yNTUgYW5k
+IHJvd1t0XSE9cm93X2xzdFt0XSB0aGVuCgkJbnRlX3RuW3RdPSB0cmFja190dFt0XStzcGQgLS0o
+cm93KzEpICogc3BkCgllbmQKCQoJaWYgdHJhY2tfcFt0XT09MjU1IHRoZW4gCgkJdHJhY2tfcFt0
+XT0wCgllbHNlCgkJdHJhY2tfcGxbdF09dHJhY2tfcFt0XQoJZW5kCglpZiB0cmFja19wblt0XT09
+MjU1IHRoZW4gCgkJdHJhY2tfcG5bdF09MAoJZWxzZSAKCQl0cmFja19wbmxbdF09dHJhY2tfcG5b
+dF0KCWVuZAoJcm93X2xzdFt0XSA9IHJvd1t0XQplbmQKCmZ1bmN0aW9uIHVwZF9idG4oKQoJaWYg
+YnRucCg1KSBvciBidG5wKDApIHRoZW4gCgkJaHRfdCA9IHRyYWNrX3R0KzIgLS1jb21wZW5zYXRl
+IGZvciBzbG93IHVwZGF0ZQoJCWRldl9jID0gaHRfdCAtIG50ZV90CgkJaWYgdHJhY2tfcG4hPTAg
+dGhlbiAKCQkJZGV2X24gPSBodF90IC0gbnRlX3RuCgkJZWxzZQoJCQlkZXZfbiA9IC0xMDAwCgkJ
+ZW5kCgkJaWYgZGV2X2M8PWFicyhkZXZfbikgdGhlbgoJCQlkZXYgPSBkZXZfYwoJCQl0cmFja19y
+b3dfd3JpdGUoNTUsMCx0cmFja19wbCsxMiwxLDY0LDAsMCkKCQllbHNlIAoJCQlkZXYgPSBkZXZf
+bgoJCQl0cmFja19yb3dfd3JpdGUoNTUsMCx0cmFja19wbmwrMTIsMSw2NCwwLDApCgkJZW5kCgkJ
+YWRkKGRldl9sLCBkZXYpCgkJaWYgI2Rldl9sID4gZGV2X2xtIHRoZW4KICAgCQkJZGVsaShkZXZf
+bCwgMSkKICAgCQllbmQKICAgCQlzZngoNTUsMykKCWVuZAoJLS1pZiBhYnMoaHRfdC10cmFja190
+dCk_NSB0aGVuIHNmeCg1NSwwKSBlbmQKZW5kCgoKZnVuY3Rpb24gZHJ3X2dycGgoKQoJbG9jYWwg
+eF9vZmY9MjQwCglyZWN0ZmlsbCh4X29mZiwgMCx4X29mZitkZXZfcywyNDAsIDcpIC0tIHplaWNo
+bmUgZWluZW4gd2Vp44KM44GLZW4gcGl4ZWwKCWZvciBpID0gMSwgI2Rldl9sIGRvCgkJbG9jYWwg
+ZGV2ID0gZGV2X2xbaV0KCQlsb2NhbCB4ID0geF9vZmYgKyBkZXYqZGV2X3MKCQlsb2NhbCB5ID0g
+aSpkZXZfcyAtIDEKCQlyZWN0ZmlsbCh4LCB5LHgrZGV2X3MseStkZXZfcywgNykgLS0gemVpY2hu
+ZSBlaW5lbiB3ZWnjgozjgYtlbiBwaXhlbAoJZW5kCmVuZAoKZnVuY3Rpb24gZHJ3X2RlYnVnKHQp
+Cgljb2xvcig3KQoJPyJwYXR0ZXJuOiAiLi5wYXR0X2MsMTAsMTAsNwoJPyJjaGFubmVsIGluZm86
+ICIKCT8iY3VycmVudCB0cmFjazogIi4udHJhY2tfY1t0XQoJPyJuZXh0IHRyYWNrOiAiLi50cmFj
+a19uW3RdCgk-InRyYWNrIGxlbmd0aDogIi4udHJhY2tfcmVhZCg4KS5sZW4KCT8idHJhY2tfdCA6
+ICIuLnRyYWNrX3RbdF0gCgk-InJvdyA6ICIuLnJvd1t0XQoJPyJyb3dfdCA6ICIuLnJvd190W3Rd
+Cgk-InRyYWNrX3A6ICIuLnRyYWNrX3BbdF0gLi4iICIgLi5udGVfdFt0XSAuLiIgIiAuLmh0X3Rb
+dF0gLi4iICIgLi5kZXZfY1t0XQoJPyJ0cmFja19wbjogIi4udHJhY2tfcG5bdF0gLi4iICIgLi5u
+dGVfdG5bdF0gLi4iICIgLi5kZXZfblt0XQoJPyJoaXRfdDogIi4uaHRfdFt0XSAuLiIgIiAuLmRl
+dlt0XQplbmQKCmZ1bmN0aW9uIHJlc3QoKQoJZm9yIGk9MCw3IGRvCgkJbG9jYWwgdGkscmkgPSBj
+aGFubmVsX2N1cnJlbnRfdHJhY2soaSksY2hhbm5lbF9jdXJyZW50X3JvdyhpKQoJCWNvbG9yKDcp
+CgkJaWYgdGk9PS0xIG9yIHJpPT0tMSB0aGVuCgkJCT9pLi4iOiIKCQkJPyIiCgkJZWxzZQoJCQk-
+c3RyaW5nLmZvcm1hdCgiJWQ6ICUwM2QgJTAzZCAlMDRkIixpLHRpLHJpLGNoYW5uZWxfdGlja3Nf
+cGxheWVkKGkpKQoJCQlsb2NhbCByb3cgPSB0cmFja19yb3dfcmVhZCh0aSxyaSkKCQkJbG9jYWwg
+cCxpLHYsZngsZnhwID0gcm93LnBpdGNoLHJvdy5pbnN0cnVtZW50LHJvdy52b2x1bWUscm93LmVm
+ZmVjdCxyb3cuZWZmZWN0X3BhcmFtcwoJCQlsb2NhbCBwbixwbyA9IG5vdGVfbmFtZXNbcCUxMisx
+XSxwXDEyCgkJCWlmIHA9PTI1NSBvciBpPT0yNTUgb3Igdj09MjU1IHRoZW4KCQkJCT8iICAgXGY2
+Li4uIFxmZS4uIFxmYy4uIFxmZC5cZjYuLiIKCQkJZWxzZQoJCQkJbG9jYWwgZnhzdHIgPSBmeD09
+MCBhbmQgIlxmZC5cZjYuLiIgb3Igc3RyaW5nLmZvcm1hdCgiXGZkJXNcZjYlMDJ4IixjaHIoZngp
+LGZ4cCkKCQkJCT9zdHJpbmcuZm9ybWF0KCIgICBcZjYlcyVkIFxmZSUwMmQgXGZjJTAyeCAlcyIs
+c3ViKHBuLi4iICAiLDEsMikscG8saSx2LGZ4c3RyKQoJCQllbmQKCQllbmQKCWVuZAplbmQ=
+:: guitar.lua
+--[[pod_format="raw",created="2025-04-01 09:03:08",modified="2025-05-12 15:41:17",revision=1213]]
+guitar= {
+	n_frts = 6, --number of frets
+	n_actfr =4,
+	n_strs = 6, -- number of strings
+	tuning = {64,59,55,50,45,40},
+	p_frts = {0,30,60,90,120,150,180}, --position of frets
+	h_neck = {55,50},
+	a={0,0,0,0,0,0,0,1}, --track is active
+	non={0,0,0,0,0,0,0,0}, --note on
+	pitch={0,0,0,0,0,0,0,0},
+	frt={0,0,0,0,0,0,0,0},
+	str={1,1,1,1,1,1,1,1},
+	trnsp={0,0,0,0,0,0,0,0},
+	upd=function(s,t)
+		local strs=s.n_strs
+		local frts=s.n_actfr
+		local trnsp=s.trnsp[t]
+		if track_p[t]!=255  and track_p[t]!=0 then
+			s.non[t]=1
+		else
+			s.non[t]=0
+		end
+		if s.a[t]==1 and s.non[t]==1 then
+			s.pitch[t] = track_p[t]
+			--s.str[t]=strs
+			s.str[t]=strs
+			for str=strs,1,-1 do
+				if s.pitch[t]>s.tuning[str]+trnsp+frts then 
+					s.str[t]=str-1
+				end 
+				if s.str[t]<=0 then s.str[t]=1 end
+				--if s.str[t]> s.n_strs then s.str[t]=s.n_strs end
+			end
+			s.frt[t]=s.pitch[t]-s.tuning[s.str[t]]-trnsp
+		end
+	end,
+	drw_neck = function(s,x,y)
+		strs = s.n_strs
+		frts = s.n_frts
+		cfrt = 6
+		cwd = 4
+		local strsp=s.h_neck[1]/strs
+		for frt=1,frts do
+			if (frt!=0) rectfill(x+s.p_frts[frt],y,x+s.p_frts[frt+1],y+s.h_neck[1],cwd)
+			if (frt!=0) line(x+s.p_frts[frt],y,x+s.p_frts[frt],y+s.h_neck[1],cfrt)
+		end
+		for str=1,strs do
+			line(x,y+str*strsp-strsp/2,x+s.p_frts[frts+1],y+str*strsp-strsp/2,7)
+		end
+	end, 
+	drw_nts = function(s,t,x,y)
+		local strs = s.n_strs
+		local c = 7
+		if s.a[t]==1 and s.non[t]==1 then
+			local strsp=s.h_neck[1]/strs --calc string spacing
+			if s.frt[t] >= 1 and s.frt[t] <= s.n_frts then 
+					x = x+s.p_frts[s.frt[t]+1]
+				elseif s.frt[t] >= s.n_frts then 
+					x = x+s.p_frts[s.n_frts]
+				else
+					x = x
+				end
+			local y=y+s.str[t]*strsp-strsp/2
+			local r=5
+			circfill(x-r,y,r,3)
+			circ(x-r,y,r,c)
+			?s.frt[t],x-r-2,y-r+2,c
+			--?s.str[t]
+		end
+	end,
+}
+:: input.lua
+--[[pod_format="raw",created="2025-02-18 20:02:19",modified="2025-05-12 15:41:17",revision=1321]]
+input={
+	recbuff={},
+	drw_keyin=function(s,t)
+		local keys={"z","s","x","d","c","v","g","b","h","n","j","m",","}
+		for k=1,#keys do
+			if key(keys[k])==true then 
+				?k
+			end
+		end
+		for i,n in ipairs(s.recbuff) do
+    		print("note "..i..": hoehe="..n[1].." lautstaerke="..n[2])
+    	end
+	end,
+	rec=function(s,t)
+		local tick=stat(400 + t-1,11)
+		local t_r=spd --ticks per row
+		local row=row_t[t]
+		local keys={"z","s","x","d","c","v","g","b","h","n","j","m",","}
+		for k=1,#keys do
+			if keyp(keys[k])==true then 
+				?k
+				add(s.recbuff, {k, tick})
+			end
+		end
+	end
+}
+:: keys.lua
+--[[pod_format="raw",created="2025-02-16 10:22:30",modified="2025-05-12 15:41:17",revision=1773]]
+keys = {
+	w=13,
+	h=40,
+	n_oct=2, --number of octaves
+	s_wht={0,2,4,5,7,9,11,12,14,16,17,19,21,23,24},
+	blk={1,3,6,8,10,13,15,18,20,22},
+	blk_off={0,0,1,1,1,2,2,3,3,3}, --offset of the black keys
+	non={0,0,0,0,0,0,0,0}, --note on
+	pitch={0,0,0,0,0,0,0,0},
+	a={1,1,1,0,0,0,0,1}, --track is active
+	
+	upd=function(s,t)
+		if s.a[t]==1 then
+			s.pitch[t] = (track_p[t]+12)%(s.n_oct*12) 
+			if track_p[t]!=255 and track_p[t]!=0 then
+				s.non[t]=1
+			else
+				s.non[t]=0
+			end
+		end
+	end,
+	drw_keys=function(s,x,y) -- horizontal keyboard
+		h=s.h
+		w=s.w
+		c_woff=6
+		c_on=4
+		c_boff=0
+		if 1==1 then
+			for k = 0, 14 do
+				rectfill(x+w*k-w/2+1, y, x+w*k+w/2-1,y+h, c_woff)
+			end
+			for k = 1, #s.blk do
+				--if self.blk_off[k]==1
+				off=s.blk_off[k]*w/2
+				rectfill(x+w*s.blk[k]/2-w/2+off+3, y, x+w*s.blk[k]/2+w/2+off-3,y+h/2, c_boff)
+			end
+		end
+	end,
+	drw_ftre=function(s,t,x,y) --draw future
+		local w=s.w
+		local za=9 
+		local cl=7
+		local len=track_read(t).len
+		local tick=stat(400 + t-1,11)
+		local t_r=spd --ticks per row
+		for r=0,8 do
+			local ya=y-r*za+za*(tick%t_r)/t_r
+			local yb=y-r*za-za+za*(tick%t_r)/t_r
+			local pitch=track_read(track_c[t]).pitches[r+1+row[t]]
+			--?"test "..track_row_read(track-1,row).pitch,x,y+row*za,cl
+			if r+row[t] < len and pitch != 255 then 
+				--?"test2 "..pitch,x,y-r*za-za+za*(tick%t_r)/t_r+2,cl
+				for k = 0, 15 do
+					if (pitch+12)%24==s.s_wht[k+1] then
+						rectfill(x+w*k-w/2+1, y-r*za+za*(tick%t_r)/t_r, x+w*k+w/2-1,y-r*za-za+za*(tick%t_r)/t_r, c_on)
+					end
+				end
+				for k = 0, 10 do
+					if((pitch+12)%24==s.blk[k+1]) then
+						rectfill(x+w*k+s.blk_off[k+1]*w+1, ya, x+w*k+s.blk_off[k+1]*w+w-1,yb, c_on)
+					end
+				end	
+			end
+		end
+	end,
+	drw_pitch=function(s,t,x,y) -- horizontal keyboard
+		h=s.h/2
+		w=s.w
+		c_woff=6
+		c_on=4
+		c_boff=0
+		if s.a[t]==1 then
+			for k = 0, 15 do
+				if(s.pitch[t]==s.s_wht[k+1] and s.non[t]==1)then
+					rectfill(x+w*k-w/2+1, y+h, x+w*k+w/2-1,y+h*2, c_on)
+				end
+			end		
+			for k = 0, 10 do
+				if(s.pitch[t]==s.blk[k+1] and s.non[t]==1) then
+					rectfill(x+w*k+s.blk_off[k+1]*w+1, y, x+w*k+s.blk_off[k+1]*w+w-1,y+h, c_on)
+				--if(self.s_blcks[self.pitch[t]+1]==1 and self.non==1) then
+					--if(self.pitch[t]==self.blk[k+1] and self.non==1)rectfill(x[t]+s*k-s/2+1, y[t]+h, x[t]+s*k+s/2-1,y[t]+h*2, c_on)
+					--if(self.s_wht[k+1]<self.s_scl[k+1])rectfill(-s/2+x[t]+s*(k+1)-s/2+1, y[t],-s/2+x[t]+s*(k+1)+s/2-1,y[t]+h/2, c_on)
+					--if(self.s_wht[k+1]>self.s_scl[k+1])rectfill(-s/2+x[t]+s*k-s/2+1, y[t],-s/2+x[t]+s*k+s/2-1,y[t]+h/2, c_on)
+				end
+			end
+		end
+	end
+}
+:: main.lua
+--[[pod_format="raw",created="2025-02-09 11:08:47",modified="2025-05-12 15:41:17",revision=1678]]
+xkeya=20
+ykeya=70
+xkeyb=270
+ykeyb=100
+xgit=20
+ygit=150
+xbss=20
+ybss=210
+
+
+dev = fstat"/ram/pancelor.txt" and env().corun_program
+dev_stats = dev
+
+local function include_lib(name)
+	if (dev) cp("/appdata/system/"..name,"/ram/cart/"..name)
+	include(name)
+end
+
+
+include_lib "lib/pq.lua"
+
+include "sfxdata.lua"
+include "game.lua"
+include "score.lua"
+include "keys.lua"
+include "guitar.lua"
+include "bass.lua"
+include "input.lua"
+pq("dev",dev)
+
+function _init()
+	for i=0,10 do
+		track_write(i,spd)
+	end
+ 	score:init()
+ 	music(0)
+end
+
+
+function _update()
+	for i=1,8 do
+		upd_sfxst(i)
+	end
+	keys:upd(1)
+	keys:upd(2)
+	keys:upd(3)
+	keys:upd(8)
+	guitar:upd(8)
+	bass:upd(1)
+
+	--upd_btn()
+	--rkeys:upd(1)
+	--keys:upd(8)
+	--score:t_nte()
+end
+
+function _draw()
+	cls(19)
+	--map()
+	--keys:drw_keys(1)
+	keys:drw_ftre(8,xkeyb,100)
+	guitar:drw_neck(xgit,ygit)
+	bass:drw_neck(xbss,ybss)
+	keys:drw_keys(xkeya,ykeya)
+	keys:drw_keys(xkeyb,ykeyb)
+	keys:drw_pitch(1,xkeya,ykeya)
+	keys:drw_pitch(2,xkeya,ykeya)
+	keys:drw_pitch(3,xkeya,ykeya)
+	keys:drw_pitch(8,xkeyb,ykeyb)
+	guitar:drw_nts(8,xgit,ygit)
+	bass:drw_nts(1,xbss,ybss)
+	
+		--score:d_all()
+	--if track_tt<200 then cls() end
+	--?"track_t : "..track_tt
+	--drw_grph()
+	
+	drw_debug(8)
+	input:rec(8)
+	input:drw_keyin()
+end
+
+
+
+:: score.lua
+--[[pod_format="raw",created="2025-02-18 19:47:52",modified="2025-05-12 15:41:17",revision=1372]]
+score={
+	x=3,
+	y=119,
+	w=21,
+	n=5,
+	s=4,
+	c=13,
+	noffx=16,
+	crss_st=0,
+	btn_st=0,
+	s_idx=0, --scale index
+	s_nidx=0, --note index
+	s_oct=0,
+	s_wht={0,2,4,5,7,9,11,12,14,16,17,19,21,23,24},
+	s_blck={1,1,0,1,1,1,0},
+	s_scl={0,2,4,5,7,9,11},
+	n_nts=25, --note range
+	-- notenms={"\^w\^tc","\^w\^tc#","\^w\^td","\^w\^td#","\^w\^te","\^w\^tf","\^w\^tf#","\^w\^tg","\^w\^tg#","\^w\^ta","\^w\^ta#","\^w\^tb",
+	-- "\^w\^tc","\^w\^tc#","\^w\^td","\^w\^td#","\^w\^te","\^w\^tf","\^w\^tf#","\^w\^tg","\^w\^tg#","\^w\^ta","\^w\^ta#","\^w\^tb","\^w\^tc"},
+	-- nnms_f={"\^w\^tc","\^w\^tdb","\^w\^td","\^w\^teb","\^w\^te","\^w\^tf","\^w\^tgb","\^w\^tg","\^w\^tab","\^w\^ta","\^w\^tbb","\^w\^tb",
+	-- "\^w\^tc","\^w\^tdb","\^w\^td","\^w\^teb","\^w\^te","\^w\^tf","\^w\^tgb","\^w\^tg","\^w\^tab","\^w\^ta","\^w\^tbb","\^w\^tb"},
+	-- nnms_s={"\^w\^tc","\^w\^tc#","\^w\^td","\^w\^td#","\^w\^te","\^w\^tf","\^w\^tf#","\^w\^tg","\^w\^tg#","\^w\^ta","\^w\^ta#","\^w\^tb",
+	-- "\^w\^tc","\^w\^tc#","\^w\^td","\^w\^td#","\^w\^te","\^w\^tf","\^w\^tf#","\^w\^tg","\^w\^tg#","\^w\^ta","\^w\^ta#","\^w\^tb","\^w\^tc"},
+	notenms={"c","c#","d","d#","e","f","f#","g","g#","a","a#","b","c","c#","d","d#","e","f","f#","g","g#","a","a#","b","c"},
+	nnms_f={"c","db","d","es","e","f","gb","g","ab","a","bb","b","c","db","d","es","e","f","gb","g","ab","a","bb","b","c"},
+	nnms_s={"c","c#","d","d#","e","f","f#","g","g#","a","a#","b","c","c#","d","d#","e","f","f#","g","g#","a","a#","b","c"},
+	
+	init=function(self)
+		self.s_non=1
+		self.s_note=3
+		self.s_nidx=0
+		self.crss_st=2
+	end,
+	
+	d_lns=function(self)
+		lnw = 0 --line width
+		for ln=0,self.n-1 do
+			rectfill(self.x,self.y-ln*self.s,self.x+self.w,self.y-ln*self.s-lnw,self.c)
+		end
+		if(self.s_non == 1) then
+			if (self.s_nidx<1)rectfill(self.x+self.noffx-self.s,self.y+self.s,self.x+self.noffx+self.s,self.y+self.s-lnw,self.c)
+			if (self.s_nidx>11)rectfill(self.x+self.noffx-self.s,self.y-self.s*self.n,self.x+self.noffx+self.s,self.y-self.s*self.n-lnw,self.c)
+			if (self.s_nidx>13)rectfill(self.x+self.noffx-self.s,self.y-self.s*(self.n+1),self.x+self.noffx+self.s,self.y-self.s*(self.n+1)-lnw,self.c)
+		end
+	end,
+	d_key=function(self) 
+		sspr(0,16,10,24,self.x,self.y-self.s*self.n+4,10,24)
+	end,
+	d_ntn=function(self)
+		xoff=2
+		yoff=10
+		if(self.s_non == 1) then
+			if(self.s_note%12 < self.s_wht[self.s_idx+1] and self.s_non>0) then
+				print(self.nnms_f[self.s_note+1], self.x+self.w+xoff, self.y+self.s/2-self.s/2*self.s_nidx,self.c)
+			elseif(self.s_note%12 > self.s_wht[self.s_idx+1] and self.s_non>0) then
+				print(self.nnms_s[self.s_note+1], self.x+self.w+xoff, self.y+self.s/2-self.s/2*self.s_nidx,self.c)
+			else
+				print(self.nnms_s[self.s_note+1], self.x+self.w+xoff, self.y+self.s/2-self.s/2*self.s_nidx,self.c)
+			end
+		end
+	end,
+	d_nte=function(self)
+		if(self.s_non>0) then
+			if(self.s_note%12 < self.s_wht[self.s_idx%#self.s_scl+1] and self.s_non>0) then
+				spr(1,self.x+self.noffx-self.s-3,self.y+self.s/2-self.s/2*self.s_nidx)
+			end
+			if(self.s_note%12 > self.s_wht[self.s_idx%#self.s_scl+1] and self.s_non>0) then
+				spr(0,self.x+self.noffx-self.s-3,self.y+self.s/2-self.s/2*self.s_nidx)
+			end
+			
+			circ(self.x+self.noffx,self.y+self.s-self.s/2*self.s_nidx,self.s/2,7)
+		end
+		
+	end,
+	
+	d_all=function(self)
+		self:d_lns(self)
+		self:d_ntn(self)
+		self:d_nte(self)
+		--self:d_keys(self)
+	end,
+	t_nte=function(self)
+		self.s_idx=self.crss_st-1
+		self.s_oct=0
+		if(self.btn_st==2 or self.btn_st==3 or (self.crss_st==4 and self.btn_st==1)) then
+			self.s_oct=1
+		end
+		if(self.btn_st==3 and self.crss_st==4) then
+			self.s_oct=2		
+		end
+		if(self.btn_st==1 or self.btn_st==3) then
+			self.s_idx=self.s_idx+4
+		end		
+		if(self.crss_st>0) then
+			self.s_non=1
+			self.s_nidx=self.s_idx%#self.s_scl+self.s_oct*(#self.s_scl)
+			self.s_note=self.s_scl[self.s_idx%#self.s_scl+1]+self.s_oct*12
+			sfx(0,-1,self.s_note,1)
+		end
+		
+	end
+}
+:: sfxdata.lua
+--[[pod_format="raw",created="2025-02-16 10:19:26",modified="2025-05-12 15:41:17",revision=1359]]
+-- sfx/music data wrangler
+-- by pancelor
+
+-- The docs call this the "index", I call it the "header"
+-- https://www.lexaloffle.com/dl/docs/picotron_synth.html#Index
+function sfxheader_read()
+  local num_instruments, num_tracks, num_patterns, flags = peek2(0x30000, 4)
+  -- ...8 unused bytes here...
+  local insts_addr, tracks_addr, patterns_addr, unused1 = peek4(0x30010, 4)
+  assert(unused1==0,"bad sfx header 1")
+  local tick_len, def_len, def_spd = peek2(0x30020, 3)
+  local def_spd2, unused2, unused3, unused4 = peek(0x30026, 4)
+  -- TODO def_spd2 v. def_spd?
+  assert(unused2==0,"bad sfx header 2")
+  assert(unused3==0,"bad sfx header 3")
+  assert(unused4==0,"bad sfx header 4")
+  return {
+    num_instruments = num_instruments,
+    num_tracks = num_tracks,
+    num_patterns = num_patterns,
+    flags = flags, --0x1 use default track indexing (base+0x20000, increments of 328 bytes)
+    insts_addr = insts_addr, --relative address of instruments
+    tracks_addr = tracks_addr, --relative address of track index
+    patterns_addr = patterns_addr, --relative address of pattern data
+    tick_len = tick_len, --in 1/16ths of a sample at 44100Hz [0 means 5880 -- 120 ticks / second]
+    def_len = def_len, --used by patterns that do not have a default length specified
+    def_spd = def_spd, --used by patterns that do not have a default speed specified
+    def_spd2 = def_spd2, -- ??
+  }
+end
+
+function pattern_read(i)
+  local base = 0x30100 + sfxheader_read().patterns_addr -- normally 0x30100
+  local addr = base + i*20
+  local tracks = { peek(addr, 8) }
+  local flow_flags, channel_mask = peek(addr+8, 2)
+  local len = peek2(addr+10)
+  -- ...8 unused bytes here...
+  return {
+    tracks = tracks, -- array with 8 track ids
+    flow_flags = flow_flags, -- 0x1 loop forward, 0x2 loop backward, 0x4 stop
+    channel_mask = channel_mask, -- 0x1 is tracks[1] unmuted? 0x2 is tracks[2] unmuted? 0x4 => tracks[3], 0x8 => tracks[4], ... 0x80 => tracks[8]
+    len = len, --TODO: how does this interact with track length and header def_len/def_len2?
+  }
+end
+
+function track_read(i)
+  local header = sfxheader_read()
+  assert(header.flags&1==1,"unknown track format")
+  local base = 0x30000 + header.tracks_addr -- normally 0x50000
+  local addr = base + i*328
+  local len = peek2(addr)
+  local spd, loop0, loop1, delay, flags, unused = peek(addr+2, 6)
+  assert(unused==0,"bad sfx track")
+  -- note: if len<64 then some of this data is irrelevant:
+  local pitches = { peek(addr+8,64) }
+  local instruments = { peek(addr+72,64) }
+  local volumes = { peek(addr+136,64) }
+  local effects = { peek(addr+200,64) }
+  local effect_params = { peek(addr+264,64) }
+  return {
+    len = len,
+    spd = spd,
+    loop0 = loop0,
+    loop1 = loop1,
+    delay = delay,
+    flags = flags, --0x1 mute
+    -- 64-length arrays, 1 entry per note:
+    pitches = pitches,
+    instruments = instruments,
+    volumes = volumes, -- a 0xFF entry means muted
+    effects = effects, -- stored as their ascii code -- retrieve with ord()
+    effect_params = effect_params,
+  }
+end
+function track_write(i,spd)
+  local header = sfxheader_read()
+  assert(header.flags&1==1,"unknown track format")
+  local base = 0x30000 + header.tracks_addr -- normally 0x50000
+  local addr = base + i*328
+  poke (addr+2,spd) -- set spd
+end
+-- an alternate version of track_read that extracts a single row
+-- ti: track index
+-- ri: row index
+function track_row_read(ti,ri)
+  local header = sfxheader_read()
+  assert(header.flags&1==1,"unknown track format")
+  local base = 0x30000 + header.tracks_addr -- normally 0x50000
+  local addr = base + ti*328 + ri
+  return {
+    pitch = peek(addr+8),
+    instrument = peek(addr+72),
+    volume = peek(addr+136),
+    effect = peek(addr+200),
+    effect_params = peek(addr+264),
+  }
+end
+function track_row_write(ti,ri,pitch,inst,vol,eff,effp)
+  local header = sfxheader_read()
+  assert(header.flags&1==1,"unknown track format")
+  local base = 0x30000 + header.tracks_addr -- normally 0x50000
+  local addr = base + ti*328 + ri
+  return {
+    pitch = poke(addr+8,pitch),
+    instrument = poke(addr+72,inst),
+    volume = poke(addr+136,vol),
+    effect = poke(addr+200,eff),
+    effect_params = poke(addr+264,effp),
+  }
+end
+function instrument_read(i)
+  local base = 0x30000 + sfxheader_read().tracks_addr -- normally 0x40000
+  local addr = base + i*0x200
+  assert(false,"not implemented")
+  -- see https://www.lexaloffle.com/dl/docs/picotron_synth.html#Index
+  -- or read /system/apps/sfx.p64/data.lua:clear_instrument() for info
+end
+
+-- i: channel index 0..7
+function channel_current_track(i)
+  return stat(464,0)>>i&1~=0 and stat(400+i,12) or -1
+end
+-- i: channel index 0..7
+function channel_current_row(i)
+  return stat(464,0)>>i&1~=0 and stat(400+i,9) or -1
+end
+-- number of ticks played on current pattern
+function channel_ticks_played(i)
+  return stat(400+i,11)
+end
+--currently playing pattern, or -1
+function current_pattern(i)
+  return stat(466)
+end
+
+:: .info.pod
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAyLTA5IDExOjM5OjE2Iixtb2RpZmllZD0iMjAyNS0w
+NS0xMiAxNTo0MToxOCIscnVudGltZT0xNyx3b3Jrc3BhY2VzPXt7bG9jYXRpb249Im1haW4ubHVh
+Izc5Iix3b3Jrc3BhY2VfaW5kZXg9MX0se2xvY2F0aW9uPSJnYW1lLmx1YSMxMDEiLHdvcmtzcGFj
+ZV9pbmRleD0xfSx7bG9jYXRpb249InNmeGRhdGEubHVhIzEiLHdvcmtzcGFjZV9pbmRleD0xfSx7
+bG9jYXRpb249ImtleXMubHVhIzQ0Iix3b3Jrc3BhY2VfaW5kZXg9MX0se2xvY2F0aW9uPSJzY29y
+ZS5sdWEjMSIsd29ya3NwYWNlX2luZGV4PTF9LHtsb2NhdGlvbj0iaW5wdXQubHVhIzExIix3b3Jr
+c3BhY2VfaW5kZXg9MX0se2xvY2F0aW9uPSJndWl0YXIubHVhIzEiLHdvcmtzcGFjZV9pbmRleD0x
+fSx7bG9jYXRpb249ImJhc3MubHVhIzEiLHdvcmtzcGFjZV9pbmRleD0xfSx7bG9jYXRpb249Imdm
+eC8wLmdmeCIsd29ya3NwYWNlX2luZGV4PTJ9LHtsb2NhdGlvbj0ibWFwLzAubWFwIix3b3Jrc3Bh
+Y2VfaW5kZXg9M30se2xvY2F0aW9uPSJzZngvMC5zZngiLHdvcmtzcGFjZV9pbmRleD00fX1dXQ==
+:: [eoc]

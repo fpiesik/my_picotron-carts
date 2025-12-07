@@ -68,7 +68,7 @@ function pqf(...)
 end
 
 :: main.lua
---[[pod_format="raw",created="2024-03-15 21:08:04",modified="2025-03-24 21:07:46",revision=781]]
+--[[pod_format="raw",created="2024-03-15 21:08:04",modified="2025-12-06 15:55:23",revision=783]]
 printh"---"
 
 dev = fstat"/ram/pancelor.txt" and env().corun_program
@@ -85,6 +85,7 @@ include_lib "lib/pq.lua"
 
 include "src/sfxdata.lua"
 include "src/game.lua"
+include "src/notes.lua"
 
 
 pq("dev",dev)
@@ -92,7 +93,7 @@ pq("dev",dev)
 
 
 :: src/game.lua
---[[pod_format="raw",created="2024-03-22 13:31:16",modified="2025-12-06 14:27:29",revision=1581]]
+--[[pod_format="raw",created="2024-03-22 13:31:16",modified="2025-12-06 16:06:33",revision=1609]]
 function _init()
 	--sfx(0)
 	bars = 2
@@ -110,19 +111,34 @@ function _draw()
 	--
 	--sfx(0)
 	drwGrid()
+	for note in all(notes) do note:draw() end
 	--spr(1,200,200)
 	--print(track_read(0).pitches[1],60,60,7)
 end
 
+function _update()
+	if btnp(0) then
+		add_note_at(flr(rnd(8)), 1, 1)
+	end
+	if btnp(1) then 
+		remove_note_at(1, 1)
+	end
+end
+
+
+
+-- oben: State
+notes = {}
+
 function drwGrid()
 	for r = 0, rows - 1 do
 		for c = 0, cols - 1 do
-			xa = c * size + posX
-			ya = posY + r * size 
-			xb = c * size + size+posX
-			yb = posY + size + r * size
+			local xa = c * size + posX
+			local ya = posY + r * size 
+			local xb = c * size + size+posX
+			local yb = posY + size + r * size
 			rect(xa, ya, xb, yb, 2)
-			spr(0,xa+2,ya+2)
+			--spr(0,xa+2,ya+2)
 		end
 	end
 end
@@ -265,16 +281,16 @@ function current_pattern(i)
 end
 
 :: .info.pod
---[[pod,created="2024-04-30 10:12:15",modified="2025-12-06 14:27:29",runtime=24,stored="2024-04-02 07:25:56",workspaces={{location="src/game.lua#27",workspace_index=1},{location="main.lua#1",workspace_index=1},{location="src/sfxdata.lua#1",workspace_index=1},{location="gfx/0.gfx",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4}}]]
+--[[pod,created="2024-04-30 10:12:15",modified="2025-12-06 20:07:43",runtime=24,stored="2024-04-02 07:25:56",workspaces={{location="src/game.lua#32",workspace_index=1},{location="src/notes.lua#24",workspace_index=1},{location="main.lua#17",workspace_index=1},{location="src/sfxdata.lua#1",workspace_index=1},{location="gfx/0.gfx",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4}}]]
 :: gfx/.info.pod
---[[pod,created="2024-03-15 21:08:04",modified="2025-12-06 14:27:29",stored="2024-03-15 21:08:04"]]
+--[[pod,created="2024-03-15 21:08:04",modified="2025-12-06 20:07:43",stored="2024-03-15 21:08:04"]]
 :: gfx/0.gfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTAzLTE1IDIxOjA4OjA0Iixtb2RpZmllZD0iMjAyNS0x
-Mi0wNiAxNDoxOToyNiIscmV2aXNpb249NzU0XV1sejQA9AAAAA4yAADwEntbMF09e2JtcD1weHUA
-QyAICAQgB2AnQAcAB0AHYAdAJwIA8wAwLGZsYWdzPTAscGFuX3gIANd5PTAsem9vbT0xMX0sQwDy
-CBAQBHAH4AfgF9AnwAcAF7AHEBegByAHBABi4AegR5BXAgA-oDdwWQAgDFcABxAAX2BHIAdQXQCE
-L-DwMgCw-wIICATwAgcQB0AnYAdgB1AHoD4ADBgyPgDPKAABAABgAAAABPD-AQBMH1CYAAwPBwEd
-HzgxAP-------------------------------------------------------------9UG09OH19
+Mi0wNiAxNTo0MjoxOSIscmV2aXNpb249NzU1XV1sejQA3gAAANIxAADwC3tbMF09e2JtcD1weHUA
+QyAICAQwF1AHAAdABAABCgAgICcEAPMCQCcgLGZsYWdzPTAscGFuX3gIAN95PTAsem9vbT0xMX0s
+SQAGbwdgB0AnQEUAIiMHYAIAD0EAMQCMAA9DAB8v8Bo6ACJfEBAE8PAyAH4A0ABgAgcQB0AnFAE-
+UAegPgAMGDI_AM8oAAEAAGAAAAAE8P8BAEwfUJgADA8HAR0fODEA------------------------
+--------------------------------------1QbT04fX0=
 :: label.png
 b64$iVBORw0KGgoAAAANSUhEUgAAAeAAAAEOCAYAAABRmsRnAAAJiElEQVR4Ae3dO26k2B7A4X8j
 ghMSEk7oJUxYS7hhLaHDXkIvwWEvweEsgXCW4HBCQkKCDq40EghjqALzcPne75NahlOch04Hv-Rb
@@ -394,16 +410,16 @@ AzX9-f3cAxLIEzX9-f31ExLHAzX9-f3cAxLIEzX9-f31ExLHAzX9-f3cAxLIEzX9-f31ExLHAzX9
 -f39-f39-f39-f39-f39-f39-f39-f39-f39-f39-f39-f39-f39-f39-f39-f39-f39-f39-f39
 -f39-f39-f39-f39-f39-ekAAAAAAAAAAQ==
 :: lib/.info.pod
---[[pod,created="2024-03-22 13:29:43",modified="2025-12-06 14:27:29",stored="2024-03-22 13:29:43"]]
+--[[pod,created="2024-03-22 13:29:43",modified="2025-12-06 20:07:43",stored="2024-03-22 13:29:43"]]
 :: map/.info.pod
---[[pod,created="2024-03-15 21:08:04",modified="2025-12-06 14:27:29",stored="2024-03-15 21:08:04"]]
+--[[pod,created="2024-03-15 21:08:04",modified="2025-12-06 20:07:43",stored="2024-03-15 21:08:04"]]
 :: map/0.map
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTAzLTE1IDIxOjA4OjA0Iixtb2RpZmllZD0iMjAyNS0w
 My0yNCAyMTowNzo0NiIscmV2aXNpb249NzEwXV1sejQAaAAAAFgQAADwCHt7Ym1wPXVzZXJkYXRh
 KCJpMTYiLDMyAwAvIjABAP--------------------vxCCIpLGhpZGRlbj1mYWxzZSxwYW5feD0w
 CADSeT0wLHRpbGVfaD0xNgoAEHcKAIB6b29tPTF9fQ--
 :: sfx/.info.pod
---[[pod,created="2024-03-15 21:08:04",modified="2025-12-06 14:27:29",stored="2024-03-15 21:08:04"]]
+--[[pod,created="2024-03-15 21:08:04",modified="2025-12-06 20:07:43",stored="2024-03-15 21:08:04"]]
 :: sfx/0.sfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI0LTA3LTIyIDA5OjA3OjUyIixtb2RpZmllZD0iMjAyNS0w
 OC0wNiAxNTo1NzowOCIscmV2aXNpb249ODIwXV1sejQAJQQAAJYMAADxG3B4dQADKAAABAAED0AQ
@@ -427,5 +443,34 @@ Am9IDG9EDG9DDG8--BFvBQxnAgDv-BEPOAIPKAgPGA8QCQwMABBw-BEgP3YwOgIAIvBRYQDTDh9I
 -BAADz4gBDAEQAQgBCAUEBQACvBQSgDQFfwuHfwuFvwuCgTwbqcJEkDSAB8LCAC_mg78LwD8Lwj8
 LxcADwgAIB--AQD-mVD-----IA--
 :: src/.info.pod
---[[pod,created="2024-03-16 08:58:50",modified="2025-12-06 14:27:29",stored="2024-03-16 08:58:50"]]
+--[[pod,created="2024-03-16 08:58:50",modified="2025-12-06 20:07:43",stored="2024-03-16 08:58:50"]]
+:: src/notes.lua
+b64$LS1bW3BvZF9mb3JtYXQ9InJhdyIsY3JlYXRlZD0iMjAyNS0xMi0wNiAxNTo1Mzo1MCIsbW9k
+aWZpZWQ9IjIwMjUtMTItMDYgMTY6MDc6MTMiLHJldmlzaW9uPTRdXQotLSBvYmVuOiBTdGF0ZQpu
+b3RlcyA9IHt9CgotLSBzaW1wbGUgS2xhc3NlCk5vdGUgPSB7fQpOb3RlLl9faW5kZXggPSBOb3Rl
+CmZ1bmN0aW9uIE5vdGU6bmV3KGNvbCwgcm93LCBsZW4sIHBpdGNoLCB2ZWwpCiAgcmV0dXJuIHNl
+dG1ldGF0YWJsZSh7CiAgICBjb2wgPSBjb2wsIHJvdyA9IHJvdywKICAgIHBpdGNoID0gcGl0Y2gg
+b3IgNjAgLSByb3cqMiwgLS0gQmVpc3BpZWw6IFplaWxlIC0_IE1JREktQWVobmxpY2hlIFRvbmhv
+ZWhlCiAgICBsZW4gPSBsZW4gb3IgMSwgICAgICAgICAgICAgIC0tIGluIFN1YmRpdmlzaW9ucwog
+ICAgdmVsID0gdmVsIG9yIDcgICAgICAgICAgICAgICAtLSAwLi43IGZ1ZXIgTGF1dHN0YWVya2Uv
+RmFyYmUKICB9LCBzZWxmKQplbmQKCmZ1bmN0aW9uIGFkZF9ub3RlX2F0KGNvbCwgcm93LCBsZW4p
+CiAgYWRkKG5vdGVzLCBOb3RlOm5ldyhjb2wsIHJvdywgbGVuKSkKZW5kCgoKZnVuY3Rpb24gYWRk
+X25vdGVfYXQoY29sLCByb3csIGxlbikKICBhZGQobm90ZXMsIE5vdGU6bmV3KGNvbCwgcm93LCBs
+ZW4pKQplbmQKCmZ1bmN0aW9uIHJlbW92ZV9ub3RlX2F0KGNvbCwgcm93KQogIGZvciBpID0gI25v
+dGVzLCAxLCAtMSBkbwogICAgbG9jYWwgbiA9IG5vdGVzW2ldCiAgICAtLSB0cmlmZnQgYXVjaCBn
+ZXN0cmVja3RlIE5vdGVuOiBjb2wgaW0gQmVyZWljaCBkZXIgTm90ZQogICAgaWYgbi5yb3cgPT0g
+cm93IGFuZCBjb2wgPj0gbi5jb2wgYW5kIGNvbCA8IG4uY29sICsgbi5sZW4gdGhlbgogICAgICBk
+ZWxpKG5vdGVzLCBpKSAgICAgIC0tIFBJQ08vUGljb3Ryb246IGzDtnNjaHQgRWxlbWVudCBhbiBJ
+bmRleAogICAgICByZXR1cm4gdHJ1ZSAgICAgICAgIC0tIGdpYnQgenVyw7xjaywgb2IgZXR3YXMg
+ZW50ZmVybnQgd3VyZGUKICAgIGVuZAogIGVuZAogIHJldHVybiBmYWxzZQplbmQKCmZ1bmN0aW9u
+IGhhbmRsZV9jbGljayhteCwgbXkpCiAgbG9jYWwgY29sID0gZmxyKChteCAtIHBvc1gpIC8gc2l6
+ZSkKICBsb2NhbCByb3cgPSBmbHIoKG15IC0gcG9zWSkgLyBzaXplKQogIGlmIGNvbCA8IDAgb3Ig
+Y29sID49IGNvbHMgb3Igcm93IDwgMCBvciByb3cgPj0gcm93cyB0aGVuIHJldHVybiBlbmQKCiAg
+aWYgbm90IHJlbW92ZV9ub3RlX2F0KGNvbCwgcm93KSB0aGVuCiAgICBhZGQobm90ZXMsIE5vdGU6
+bmV3KGNvbCwgcm93KSkKICBlbmQKZW5kCgpmdW5jdGlvbiBOb3RlOmRyYXcoKQogIGxvY2FsIHgw
+ID0gcG9zWCArIHNlbGYuY29sICogc2l6ZSArIDEKICBsb2NhbCB5MCA9IHBvc1kgKyBzZWxmLnJv
+dyAqIHNpemUgKyAxCiAgbG9jYWwgeDEgPSB4MCArIHNlbGYubGVuICogc2l6ZSAtIDIKICBsb2Nh
+bCB5MSA9IHkwICsgc2l6ZSAtIDIKICBsb2NhbCBsZW4gPSBzZWxmLmxlbgogIHNwcihsZW4seDAs
+eTApCiAgLS1yZWN0ZmlsbCh4MCwgeTAsIHgxLCB5MSwgMTApICAgICAgIC0tIEvDtnJwZXIKICAt
+LXJlY3QoeDAsIHkwLCB4MSwgeTEsIDcpICAgICAgICAgICAgLS0gT3V0bGluZQplbmQ=
 :: [eoc]

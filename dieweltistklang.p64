@@ -23,7 +23,7 @@ ich kann...
 Kapitel 2: Deine Freunde
 	-
 :: core/app.lua
---[[pod_format="raw",created="2026-04-15 07:46:23",modified="2026-04-25 16:02:48",revision=9]]
+--[[pod_format="raw",created="2026-04-15 07:46:23",modified="2026-04-30 20:03:11",revision=11]]
 include "core/scene_manager.lua"
 include "core/save.lua"
 include "core/input.lua"
@@ -39,6 +39,8 @@ local function make_app()
 
     self.save = create_save_system("/appdata/megagame/save.pod")
     self.input = create_input()
+    self.btnco = create_btnco()
+    self.btnmo = create_btnmo()
     self.scene_manager = create_scene_manager(self)
 
     self.save:load()
@@ -52,6 +54,8 @@ local function make_app()
 
   function app:update()
     self.input:update()
+    self.btnco:update()
+    self.btnmo:update()
     self.scene_manager:update()
   end
 
@@ -72,7 +76,7 @@ function finish_minigame(app, game_name, score, reward)
   app.scene_manager:switch("hub")
 end
 :: core/input.lua
---[[pod_format="raw",created="2026-04-15 07:47:50",modified="2026-04-19 15:56:00",revision=7]]
+--[[pod_format="raw",created="2026-04-15 07:47:50",modified="2026-04-30 20:03:35",revision=16]]
 function create_input()
   local input = {
     left = false,
@@ -91,8 +95,52 @@ function create_input()
     self.action = btnp(4)
     self.back = btnp(5)
   end
-
   return input
+end
+
+function create_btnco()
+  local btnco = {
+    left = false,
+    right = false,
+    up = false,
+    down = false,
+    act1 = false,
+    act2 = false
+  }
+  --continious
+  function btnco:update()
+    self.left = btn(0)
+    self.right = btn(1)
+    self.up = btn(2)
+    self.down = btn(3)
+    self.act1 = btn(4)
+    self.act2 = btn(5)
+  end
+
+  return btnco
+end
+
+function create_btnmo()
+  local btnmo = {
+    left = false,
+    right = false,
+    up = false,
+    down = false,
+    act1 = false,
+    act2 = false
+  }
+
+   --momentary
+  function btnmo:update()
+    self.left = btnp(0)
+    self.right = btnp(1)
+    self.up = btnp(2)
+    self.down = btnp(3)
+    self.act1 = btnp(4)
+    self.act2 = btnp(5)
+  end
+
+  return btnmo
 end
 :: core/save.lua
 --[[pod_format="raw",created="2026-04-15 07:50:20",modified="2026-04-15 08:19:29",revision=4]]
@@ -139,9 +187,9 @@ function create_save_system(path)
   return save
 end
 :: core/scene_manager.lua
---[[pod_format="raw",created="2026-04-15 07:50:15",modified="2026-04-26 08:15:47",revision=20]]
+--[[pod_format="raw",created="2026-04-15 07:50:15",modified="2026-04-30 06:51:32",revision=23]]
 include "scenes/hub.lua"
-include "games/dodger.lua"
+include "games/sfxtest.lua"
 include "games/collector.lua"
 include "games/notenkoffer.lua"
 include "games/whoshigher.lua"
@@ -150,7 +198,7 @@ include "games/battlesound.lua"
 
 local registry = {
   hub = create_hub_scene,
-  dodger = create_dodger_game,
+  sfxtest = create_sfxtest_game,
   collector = create_collector_game,
   notenkoffer = create_koffer_game,
   whoshigher = create_whoshigher_game,
@@ -205,7 +253,8 @@ function create_scene_manager(app)
   return sm
 end
 :: core/sfxdata.lua
---[[pod_format="raw",created="2025-02-16 10:19:26",modified="2026-04-28 07:25:15",revision=1361]]
+--[[pod_format="raw",created="2025-02-16 10:19:26",modified="2026-04-30 07:08:31",revision=1364]]
+--[[pod_format="raw",created="2025-02-16 10:19:26",modified="2025-05-12 15:41:17",revision=1359]]
 -- sfx/music data wrangler
 -- by pancelor
 
@@ -343,10 +392,10 @@ function current_pattern(i)
 end
 
 :: games/battlesound.lua
---[[pod_format="raw",created="2026-04-25 16:01:33",modified="2026-04-28 10:36:54",revision=194]]
+--[[pod_format="raw",created="2026-04-25 16:01:33",modified="2026-04-30 20:13:32",revision=242]]
 function create_battlesound_game()
   local game = {
-    state = "play",
+    state = "intro",--"pres","play","gmo",
 
     -- channels / tracks / patterns
     metro_ch = 0,
@@ -362,40 +411,7 @@ function create_battlesound_game()
 
     play_pattern = 4,
     intro_pattern = 3,
---[[
-    ms = 0,
-    qs = 1,
-    isfx = 2,
 
-    lq = {},
-    sp = 18,
-    nc = 4,
-    as = {1, 2, 4},
-    si = 1,
-    ns = 1,
-    vc = 1,
-    nt = 4,
-    np = 1,
-    nb = 1,
-    nq = 1,
-    pt = 0,
-    ht = 0,
-    nh = 0,
-    sh = 0,
-
-    tm = 60,
-    tl = 1,
-    tz = 0,
-
-    ps = {24, 26, 28, 29, 31, 33, 35, 36},
-    q = {},
-    a = {},
-    ea = 0,
-    ]]
-	--ms = 0,      -- metro sound / channel index fuer die Metronom-Spur
-	--qs = 1,      -- question sound / channel index fuer die Frage-Spur
-	--isfx = 2,    -- intro sound / channel index fuer die Intro-Spur
-	
 	lq = {},     -- last question: speichert die letzte richtige Loesung fuer Feedback-Anzeige
 	sp = 18,     -- speed: Tracker-/Abspielgeschwindigkeit
 	nc = 4,      -- number of counts / beats pro Takt
@@ -430,17 +446,6 @@ function create_battlesound_game()
       back = false
     }
   }
-
-  local function pressed(lock_tbl, key, value)
-    if value and not lock_tbl[key] then
-      lock_tbl[key] = true
-      return true
-    end
-    if not value then
-      lock_tbl[key] = false
-    end
-    return false
-  end
 
   function game:clamp(v, lo, hi)
     if v < lo then return lo end
@@ -503,16 +508,16 @@ function create_battlesound_game()
       {
         --[self.metro_ch + 1] = self.metro_track,
         --[self.question_ch + 1] = self.question_track
-        --self.metro_track,
-        --self.question_track
+        self.metro_track,
+        self.question_track
       },
       mask,
       0,
       0
     )
    --sfx(self.metro_track,self.metro_ch)
-   sfx(self.question_track,self.question_ch)
-   -- music(self.play_pattern, 0, mask)
+   --sfx(self.question_track,self.question_ch)
+   music(self.play_pattern, 0, mask)
   end
 
   function game:stop_audio()
@@ -521,7 +526,7 @@ function create_battlesound_game()
     sfx(-2, self.question_ch)
     sfx(-2, self.intro_ch)
   end
-
+	--pitch to note name
   function game:p2n(p)
     local nm = {"c","c#","d","d#","e","f","f#","g","g#","a","a#","h"}
     return nm[(p % 12) + 1]
@@ -582,7 +587,7 @@ function create_battlesound_game()
     self:set_track_header(self.question_track, rows + 2, self.sp, 0, rows, 0, 0)
 
     for t = 0, rows do
-      track_row_write(self.question_track, t, 43, inst, 0xff, 0, 0)
+      --track_row_write(self.question_track, t, 43, inst, 0xff, 0, 0)
     end
 
     local cn = 0
@@ -614,8 +619,6 @@ function create_battlesound_game()
         end
       end
     end
-   --track_row_write(self.question_track, 1, 40, 2,50, 0, 0)
-   --track_row_write(self.question_track, 2, 20, 2,0, 0, 0)
   end
 
   function game:mk_intro_track()
@@ -651,7 +654,7 @@ function create_battlesound_game()
       self.ea = 0
     end
   end
-
+	--check answer
   function game:ck_a()
     self.sh = 0
     for t = 1, self.nt do
@@ -708,7 +711,8 @@ function create_battlesound_game()
       self.ra = self.hu / 2
     end
   end
-
+	
+	--draw grid
   function game.grd:drw(game)
     rect(self.x, self.y, self.x + self.w, self.y + self.h, 6)
 
@@ -750,10 +754,10 @@ function create_battlesound_game()
     local input = app.input
 
     if not input.back then
-      if pressed(game.input_lock, "left", input.left) then self.x -= 1 end
-      if pressed(game.input_lock, "right", input.right) then self.x += 1 end
-      if pressed(game.input_lock, "down", input.down) then self.y += 1 end
-      if pressed(game.input_lock, "up", input.up) then self.y -= 1 end
+      if app.btnmo.left then self.x -= 1 end
+      if app.btnmo.right then self.x += 1 end
+      if app.btnmo.down then self.y -= 1 end
+      if app.btnmo.up then self.y += 1 end
     end
 
     if self.x >= game.nt then self.x = 0 end
@@ -761,13 +765,13 @@ function create_battlesound_game()
     if self.y >= game.np - 1 then self.y = game.np - 1 end
     if self.y <= 0 then self.y = 0 end
 
-    if pressed(game.input_lock, "action", input.action) and game.gmo.go ~= 1 then
+    if app.btnmo.act1 and game.gmo.go ~= 1 then
       game:ad_a(self.x + 1, self.y + 1)
     end
 
     if input.back and game.gmo.go == 0 then
-      if pressed(game.input_lock, "left", input.left) then game.sp += 1 end
-      if pressed(game.input_lock, "right", input.right) then game.sp -= 1 end
+      if app.btnmo.left then game.sp += 1 end
+      if app.btnmo.right then game.sp -= 1 end
       if game.sp < 2 then game.sp = 2 end
       game:mk_m()
       game:mk_q()
@@ -852,7 +856,7 @@ function create_battlesound_game()
       self.go = 1
       game:clr_lq()
 
-      if pressed(game.input_lock, "action", app.input.action) then
+      if app.btnmo.act1 then
         game.tl = 1
         self.go = 0
         game.itr.it = 1
@@ -939,12 +943,12 @@ function create_battlesound_game()
   end
 
   function game:update_intro(app)
-    if pressed(self.input_lock, "action", app.input.action) then
+    if app.btnmo.act1 then
       self.state = "play"
       game:mk_q()
       game:start_play_audio()
-      --self.itr:int(self)
-    elseif pressed(self.input_lock, "back", app.input.back) then
+      --self.pres:int(self)
+    elseif app.btnmo.act2 then
       app.scene_manager:switch("hub")
     end
   end
@@ -959,10 +963,10 @@ function create_battlesound_game()
     end
 
     if self.pres.it == 1 then
-      self.itr:upd(self)
+      self.pres:upd(self)
     end
 
-    if self.gmo.go == 1 and pressed(self.input_lock, "back", app.input.back) then
+    if self.gmo.go == 1 and app.btnmo.act2 then
       self:stop_audio()
       finish_minigame(app, "battlesound", self.ht - self.nh, max(0, self.ht - self.nh))
     end
@@ -987,7 +991,7 @@ function create_battlesound_game()
     end
 
     if self.pres.it == 1 then
-      self.itr:drw(self)
+      self.pres:drw(self)
       self.grd:drw(self)
     end
 
@@ -1005,8 +1009,8 @@ function create_battlesound_game()
     self.si = params.subdiv_index or 1
     self.ns = self.as[self.si]
     self.vc = params.visual_counter or 1
-    self.np = params.num_pitches or 1
-    self.nq = params.num_questions or 1
+    self.np = params.num_pitches or 2
+    self.nq = params.num_questions or 2
     self.tm = params.time_limit or 60
 
     self.nt = self.nc * self.ns
@@ -1181,16 +1185,17 @@ function create_collector_game()
 
   return game
 end
-:: games/dodger.lua
---[[pod_format="raw",created="2026-04-15 07:50:24",modified="2026-04-18 05:59:33",revision=9]]
-function create_dodger_game()
+:: games/sfxtest.lua
+--[[pod_format="raw",created="2026-04-15 07:50:24",modified="2026-04-30 08:28:00",revision=46]]
+function create_sfxtest_game()
   local game = {
     player_x = 64,
     player_y = 112,
     hazards = {},
     spawn_timer = 0,
     score = 0,
-    game_over = false
+    game_over = false,
+    track = 6
   }
 
   local function reset_game(self)
@@ -1200,6 +1205,10 @@ function create_dodger_game()
     self.spawn_timer = 0
     self.score = 0
     self.game_over = false
+    local track = self.track
+    track_row_write(track, 0, 40, 2,50, 0, 0)
+    track_row_write(track, 1, 44, 2,50, 0, 0)
+    sfx(track)
   end
 
   local function collide(ax, ay, aw, ah, bx, by, bw, bh)
@@ -1268,10 +1277,10 @@ function create_dodger_game()
 
   function game:draw(app)
     cls(0)
-
-    print("DODGER", 50, 8, 7)
-    print("Score: "..tostr(self.score), 8, 8, 11)
-    print("O: hub", 90, 8, 6)
+	print("track_"..self.track.." pitch: "..track_row_read(self.track,1).pitch)
+   -- print("DODGER", 50, 8, 7)
+    --print("Score: "..tostr(self.score), 8, 8, 11)
+    --print("O: hub", 90, 8, 6)
 
     rectfill(self.player_x, self.player_y, self.player_x + 7, self.player_y + 7, 11)
 
@@ -1754,11 +1763,11 @@ function _draw()
 end
 
 :: scenes/hub.lua
---[[pod_format="raw",created="2026-04-15 07:50:22",modified="2026-04-28 06:29:00",revision=44]]
+--[[pod_format="raw",created="2026-04-15 07:50:22",modified="2026-04-30 08:29:02",revision=50]]
 function create_hub_scene()
   local hub = {
     items = {
-      { key = "dodger", label = "Play Dodger" },
+      { key = "sfxtest", label = "Test Sfx" },
       { key = "collector", label = "Play Collector" },
       { key = "notenkoffer", label = "Play Koffer" },
       --{ key = "whoshigher", label = "Play WhosHigher"}
@@ -1791,6 +1800,7 @@ function create_hub_scene()
   	--app.scene_manager:switch("whoshigher")
   	--app.scene_manager:switch("dumtak")
   	app.scene_manager:switch("battlesound")
+  	--app.scene_manager:switch("sfxtest")
   end
 
   function hub:update(app)
@@ -1851,11 +1861,11 @@ function create_hub_scene()
 	return hub
 end
 :: .info.pod
---[[pod,created="2026-03-27 05:34:19",modified="2026-04-28 10:36:55",runtime=26,workspaces={{location="main.lua#16",workspace_index=1},{location="Konzept.lua#13",workspace_index=1},{location="core/app.lua#4",workspace_index=1},{location="core/sfxdata.lua#102",workspace_index=1},{location="core/scene_manager.lua#15",workspace_index=1},{location="core/save.lua#9",workspace_index=1},{location="core/input.lua#17",workspace_index=1},{location="scenes/hub.lua#36",workspace_index=1},{location="games/dodger.lua#27",workspace_index=1},{location="games/collector.lua#117",workspace_index=1},{location="games/notenkoffer.lua#105",workspace_index=1},{location="games/whoshigher.lua#5",workspace_index=1},{location="games/dumtak.lua#1077",workspace_index=1},{location="games/battlesound.lua#236",workspace_index=1},{location="gfx/0.gfx#0",workspace_index=2},{location="gfx/1.gfx#11",workspace_index=2},{location="gfx/2.gfx#1",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4}}]]
+--[[pod,created="2026-03-27 05:34:19",modified="2026-04-30 20:13:32",runtime=26,workspaces={{location="main.lua#16",workspace_index=1},{location="Konzept.lua#13",workspace_index=1},{location="core/app.lua#17",workspace_index=1},{location="core/sfxdata.lua#104",workspace_index=1},{location="core/scene_manager.lua#11",workspace_index=1},{location="core/save.lua#9",workspace_index=1},{location="core/input.lua#64",workspace_index=1},{location="scenes/hub.lua#36",workspace_index=1},{location="games/collector.lua#117",workspace_index=1},{location="games/notenkoffer.lua#105",workspace_index=1},{location="games/whoshigher.lua#5",workspace_index=1},{location="games/dumtak.lua#1077",workspace_index=1},{location="games/battlesound.lua#54",workspace_index=1},{location="games/sfxtest.lua#9",workspace_index=1},{location="gfx/0.gfx#0",workspace_index=2},{location="gfx/1.gfx#11",workspace_index=2},{location="gfx/2.gfx#1",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4}}]]
 :: core/.info.pod
---[[pod,created="2026-04-15 07:46:04",file_item={},modified="2026-04-28 10:36:55"]]
+--[[pod,created="2026-04-15 07:46:04",file_item={},modified="2026-04-30 20:13:32"]]
 :: games/.info.pod
---[[pod,created="2026-04-15 07:48:42",modified="2026-04-28 10:36:55"]]
+--[[pod,created="2026-04-15 07:48:42",modified="2026-04-30 20:13:32"]]
 :: games/dumtak.lua
 b64$LS1bW3BvZF9mb3JtYXQ9InJhdyIsY3JlYXRlZD0iMjAyNi0wNC0yNSAwNzozMjowOSIsbW9k
 aWZpZWQ9IjIwMjYtMDQtMjYgMDg6MTU6NDAiLHJldmlzaW9uPTc1XV0KZnVuY3Rpb24gY3JlYXRl
@@ -2451,7 +2461,7 @@ IiBvciBzZWxmLnN0YXRlID09ICJsaXN0ZW4iIHRoZW4KICAgICAgc2VsZi5kcGFkOmRydygpCiAg
 ICBlbmQKCiAgICBzZWxmLmdtbzpkcncoc2VsZikKICAgIHNlbGYuZmRiOmRydyhzZWxmKQogIGVu
 ZAoKICBmdW5jdGlvbiBnYW1lOmxlYXZlKGFwcCkKICBlbmQKCiAgcmV0dXJuIGdhbWUKZW5k
 :: gfx/.info.pod
---[[pod,created="2026-03-27 05:34:19",file_item={},modified="2026-04-28 10:36:55"]]
+--[[pod,created="2026-03-27 05:34:19",file_item={},modified="2026-04-30 20:13:32"]]
 :: gfx/0.gfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAxLTE3IDEwOjM1OjQ4Iixtb2RpZmllZD0iMjAyNi0w
 NC0yNiAxMTo0ODoyMiIscmV2aXNpb249MTNdXWx6NAA3AQAAAzMAAPASe1swXT17Ym1wPXB4dQBD
@@ -2688,7 +2698,7 @@ EMYg2SjDH-E-H8Yo-f39-f39xhDGINko-f39-f39-ckQxiDZKP39-f39-f3JEMYg2SjDH-oo-f39
 wAofySj9-f39-f3GEMYgziggwiggwyjDH9I7wR-AO8EfzwofCsAfySj9-f39-f3GEMYAAAAAAAAA
 AQ--
 :: map/.info.pod
---[[pod,created="2026-03-27 05:34:19",modified="2026-04-28 10:36:55"]]
+--[[pod,created="2026-03-27 05:34:19",modified="2026-04-30 20:13:32"]]
 :: map/0.map
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAxLTE3IDEwOjM1OjQ4Iixtb2RpZmllZD0iMjAyNi0w
 NC0yNiAxMTo1MDoxMiIscmV2aXNpb249MzVdXWx6NAC1AAAAjgEAAPQKe3tibXA9cHh1AEyAHhEA
@@ -2696,14 +2706,14 @@ OwAAHgEABQAAAAYAEQcGAHQAAgADAAABFQBfBAAAAAgeAAYPOQAIfwEAAAEIAAEhAAcRAFoAHwMh
 AAcfBRsAIiEACLQADzkAFkQDAQACBgAXBQwAIAABIwEjFwE-APYNHQAALGhpZGRlbj1mYWxzZSxw
 YW5feD0tNTguNgEAETcXAPIAeT0tMjQsdGlsZV9oPTMyCgAQdwoAoHpvb209MC41fX0-
 :: scenes/.info.pod
---[[pod,created="2026-04-15 07:48:07",modified="2026-04-28 10:36:55"]]
+--[[pod,created="2026-04-15 07:48:07",modified="2026-04-30 20:13:32"]]
 :: sfx/.info.pod
---[[pod,created="2026-03-27 05:34:19",modified="2026-04-28 10:36:55"]]
+--[[pod,created="2026-03-27 05:34:19",modified="2026-04-30 20:13:32"]]
 :: sfx/0.sfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA3LTMxIDA4OjMwOjI4Iixtb2RpZmllZD0iMjAyNi0w
-NC0yOCAwNzoxOTo1OSIscmV2aXNpb249MTZdXWx6NADMAAAAFwoAAP8wcHh1AAMoAAAEAAQPQBAC
-DgABoAEgAqAOAA8QAA3wygECA0APD5AEBQYHQAyQCAkKC0AMkA8MDw0PDgxADPD-AQDr8CKqARAG
-DzIQASABIAHwAAIQAg8wEAEgDyEgATAPQPDDDx7wxw-4Cg--D4AP9w8NAfAJMAAXMDAAGQ4vAB8Z
-LwAAHw4uAAYfGC4ACSwPEi8AHxJdABofKC4AG08P--DGMAD-----3h--AQCsz8gPQAAPEED--7Dw
-cAsAAh--AQD-51D-----lg==
+NC0zMCAwODoyNzoyNiIscmV2aXNpb249MTddXWx6NADaAAAAVwoAAPAbcHh1AAMoAAAEAAQPQBAC
+DgABoAEgAqAOAA8QAA3wygECAwQFBgcAD-_QCAD-B0APD5AICQoLQAyQDwwPDQ8ODEAM8P8BAOvw
+IqoBEAYPMhABIAEgAfAAAhACDzAQASAPISABMA9A8MMPHvDHD-gKD-8PgA-3Dw0B8AkwABcwMAAZ
+Di8AHxkvAAAfDi4ABh8YLgAJLA8SLwAfEl0AGh8oLgAbTw--8MYwAP-----eH-8BAKzByA9AAA8Q
+QP--sPBwCwAmCDAMAB9ACwAzH-8BAP-fUP-----e
 :: [eoc]

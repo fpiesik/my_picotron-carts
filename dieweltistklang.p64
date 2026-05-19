@@ -8,16 +8,14 @@ version 2
 :: scenes/
 :: sfx/
 :: Konzept.lua
---[[pod_format="raw",created="2026-04-13 08:48:29",modified="2026-04-15 08:19:32",revision=4]]
+--[[pod_format="raw",created="2026-04-13 08:48:29",modified="2026-05-18 11:34:29",revision=6]]
 Story: Du landest auf einem Planeten, der aus Klang besteht. Du triffst jemanden,
 der die Hilft dich in diser Welt zurecht zu finden.
 ->Links Awakening
 ->Der Planet der Affen (am Ende ist der Planet die Erde)
+->
+Kapitel 1: Einschulung
 
-Kapitel 1: Die Welt ist Klang
-	-Schwingung
-ich kann... 
-	sagen 
 
 
 Kapitel 2: Deine Freunde
@@ -1763,7 +1761,7 @@ function _draw()
 end
 
 :: scenes/hub.lua
---[[pod_format="raw",created="2026-04-15 07:50:22",modified="2026-04-30 08:29:02",revision=50]]
+--[[pod_format="raw",created="2026-04-15 07:50:22",modified="2026-05-18 10:59:42",revision=54]]
 function create_hub_scene()
   local hub = {
     items = {
@@ -1799,7 +1797,7 @@ function create_hub_scene()
   	--app.scene_manager:switch("notenkoffer")
   	--app.scene_manager:switch("whoshigher")
   	--app.scene_manager:switch("dumtak")
-  	app.scene_manager:switch("battlesound")
+  	--app.scene_manager:switch("battlesound")
   	--app.scene_manager:switch("sfxtest")
   end
 
@@ -1861,11 +1859,11 @@ function create_hub_scene()
 	return hub
 end
 :: .info.pod
---[[pod,created="2026-03-27 05:34:19",modified="2026-04-30 20:13:32",runtime=26,workspaces={{location="main.lua#16",workspace_index=1},{location="Konzept.lua#13",workspace_index=1},{location="core/app.lua#17",workspace_index=1},{location="core/sfxdata.lua#104",workspace_index=1},{location="core/scene_manager.lua#11",workspace_index=1},{location="core/save.lua#9",workspace_index=1},{location="core/input.lua#64",workspace_index=1},{location="scenes/hub.lua#36",workspace_index=1},{location="games/collector.lua#117",workspace_index=1},{location="games/notenkoffer.lua#105",workspace_index=1},{location="games/whoshigher.lua#5",workspace_index=1},{location="games/dumtak.lua#1077",workspace_index=1},{location="games/battlesound.lua#54",workspace_index=1},{location="games/sfxtest.lua#9",workspace_index=1},{location="gfx/0.gfx#0",workspace_index=2},{location="gfx/1.gfx#11",workspace_index=2},{location="gfx/2.gfx#1",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4}}]]
+--[[pod,created="2026-03-27 05:34:19",modified="2026-05-18 11:34:29",runtime=26,workspaces={{location="main.lua#16",workspace_index=1},{location="Konzept.lua#11",workspace_index=1},{location="core/app.lua#17",workspace_index=1},{location="core/sfxdata.lua#104",workspace_index=1},{location="core/scene_manager.lua#11",workspace_index=1},{location="core/save.lua#9",workspace_index=1},{location="core/input.lua#64",workspace_index=1},{location="scenes/hub.lua#71",workspace_index=1},{location="games/collector.lua#117",workspace_index=1},{location="games/notenkoffer.lua#105",workspace_index=1},{location="games/whoshigher.lua#5",workspace_index=1},{location="games/dumtak.lua#1077",workspace_index=1},{location="games/battlesound.lua#54",workspace_index=1},{location="games/sfxtest.lua#9",workspace_index=1},{location="gfx/0.gfx#0",workspace_index=2},{location="gfx/1.gfx#11",workspace_index=2},{location="gfx/2.gfx#4",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4}}]]
 :: core/.info.pod
---[[pod,created="2026-04-15 07:46:04",file_item={},modified="2026-04-30 20:13:32"]]
+--[[pod,created="2026-04-15 07:46:04",file_item={},modified="2026-05-18 11:34:29"]]
 :: games/.info.pod
---[[pod,created="2026-04-15 07:48:42",modified="2026-04-30 20:13:32"]]
+--[[pod,created="2026-04-15 07:48:42",modified="2026-05-18 11:34:29"]]
 :: games/dumtak.lua
 b64$LS1bW3BvZF9mb3JtYXQ9InJhdyIsY3JlYXRlZD0iMjAyNi0wNC0yNSAwNzozMjowOSIsbW9k
 aWZpZWQ9IjIwMjYtMDQtMjYgMDg6MTU6NDAiLHJldmlzaW9uPTc1XV0KZnVuY3Rpb24gY3JlYXRl
@@ -2461,16 +2459,20 @@ IiBvciBzZWxmLnN0YXRlID09ICJsaXN0ZW4iIHRoZW4KICAgICAgc2VsZi5kcGFkOmRydygpCiAg
 ICBlbmQKCiAgICBzZWxmLmdtbzpkcncoc2VsZikKICAgIHNlbGYuZmRiOmRydyhzZWxmKQogIGVu
 ZAoKICBmdW5jdGlvbiBnYW1lOmxlYXZlKGFwcCkKICBlbmQKCiAgcmV0dXJuIGdhbWUKZW5k
 :: gfx/.info.pod
---[[pod,created="2026-03-27 05:34:19",file_item={},modified="2026-04-30 20:13:32"]]
+--[[pod,created="2026-03-27 05:34:19",file_item={},modified="2026-05-18 11:34:29"]]
 :: gfx/0.gfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAxLTE3IDEwOjM1OjQ4Iixtb2RpZmllZD0iMjAyNi0w
-NC0yNiAxMTo0ODoyMiIscmV2aXNpb249MTNdXWx6NAA3AQAAAzMAAPASe1swXT17Ym1wPXB4dQBD
-ICAgBPD-vwcQB-ANF-AOF-ANCwDzAf_-LGZsYWdzPTAscGFuX3gIAMd5PTAsem9vbT03fSxDAJAI
-CAT3Aj8WNz4CAC-3AjsAGVtAQATw-wEAHwBBAAsfM0EAfF8QEATw8DEACx84MQBcBdQA8Ql8-CLQ
-DPAgDNAMIAxADAAMAAxADCAM8AgRAJvgDCAMgBxgHDAfAJVwDBAMQAwQDCAmAAoSAAZJAAQ_AABi
-AABqALUgLxAQLiAMIC4QLggAADMAHy4WAEMdMAIAHyAWADEi-CI9AR_8RwIuD0EAmw_YAhEPMQCN
-DwUBAg9BANwOZgEPMQD---------------------------------------------------------
---8kUG09OH19
+NS0xOCAxMToyNToxOCIscmV2aXNpb249MzFdXWx6NAArAgAAlTMAAPMhe1swXT17Ym1wPXB4dQBD
+IAgIBPACBxAHQBdQF0AHEAfwAixmbGFncz0wLHBhbl94CADHeT0wLHpvb209N30sPgDwBBAQBPA0
+d3B3cBc-FhdwFw4fEQ4HABAdBgCPPhdwd3B38DRQABmQCAgE9wI-Fjc_AgAf94sAGltAQATw-wEA
+HwBBAAsfM0EAOwANAR-wMQALHzgxAF_h-AHvDwwuDE4MDgIAPy4Mrg4ABu-u-AEeLxAeLS4MDgwe
+LQgAA1YuDD4MPggAL-wAjwAdQwD-DwR4ADVeDD4GAAAQAEH_B-wAgQBMHi0uLQYAET5xABFOBgAf
+HncAIOTvDyxuHD4MEAxODBAMLggAARQAEe76ACAMLnsAbw4MHgwuLQgAAwF7AAQIAC-8AesBHg8x
+AN0PUgMCD3IAHg8xAP------35H8AeAMIAxADAACAD8gDKAOAAbP4PwBIC8QEC4gHCAuBgADUjAM
+MAwwBgAfDIcAHTMA8ARwAAgEAEHwB-wAdQBPEC4gLgYAAwJvABFABgAPpQgf4-ASHGAcMAwQDEAM
+EAwgCAChMBxgHPAD-AAgDHwATzAMIC4GAAMGegAfEHoAHDgc4AwCABzQEAAPKAIeDzEArxcMPwJP
+-AHwwD8AHAkIAi-8AEAAHhcgQAAfEEAAIBEAxwEv8M5YAR4PMQD-------------------------
+------------------------gVBtPTh9fQ==
 :: gfx/1.gfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI2LTA0LTI1IDAzOjM3OjE3Iixtb2RpZmllZD0iMjAyNi0w
 NC0yNSAxOTo0MToxNCIscmV2aXNpb249MTFdXWx6NADPBAAA3jcAAPMhe1swXT17Ym1wPXB4dQBD
@@ -2498,12 +2500,12 @@ DzEAjQC-ARv-AQAfAEEA3A5mAQ8xAP----------------------------------------------
 -------------yRQbT04fX0-
 :: gfx/2.gfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAxLTE3IDEwOjM1OjQ4Iixtb2RpZmllZD0iMjAyNi0w
-NC0yNiAxMTo1MTowNiIscmV2aXNpb249MzJdXWx6NABXBQAAMjwAAPMhe1swXT17Ym1wPXB4dQBD
+NS0xOCAwODo0NjoyOCIscmV2aXNpb249MzRdXWx6NABXBQAAMjwAAPMhe1swXT17Ym1wPXB4dQBD
 IBAQBPBWBxAHwBfQF8AHEAfwVixmbGFncz0wLHBhbl94CADHeT0wLHpvb209OH0sPgDxCkBABPD-
 -8vc8B-8BPAbPNA88Bkc8AQc8BgGABAZEQDwExr8BvAb-ATwHRzQHPAfHLAc8CEckBzwIxxwHPAl
 HFAc8CYFABAlDwAQJAUAECMeABAiBQAQIS0AECAFAPIIH-wC8B78AvDjXPApjPAnLCA88CUcYCwx
 AGIkDIAs8CMFAPEDICwwHPAmTCAc8CYMEBwgHPApBQDwBgwwHPAoDDAs8CcMQBzwLhzwJQxgLAUA
-AH4A-wFALPAnHCAs8Chs8Co88P-QAAELHzQAAQCj---9vJC8kBzwAgcAQRxwHJAEAA8LAEk03HDc
+AH4A-wFALPAnHCAs8Chs8Co88P-QAAELHzIAAQCj---9vJC8kBzwAgcAQRxwHJAEAA8LAEk03HDc
 BwAf1RgBg-IR2yzwKTwQDPAmLFAM8BMs0ByADPASHBAMwAyQDPASDCAJAFQN-B3wCA0ABR8ARRMM
 ABwfALAJDPAADGA88BMc4AcAQRIMAAwJAAAcAPMDBwwAHAAMkDzwGwwADAAMEAyACwAgHAALAOAY
 -B3wBgwwDAAM8CkMIAcAESooAJDwJvwd8AsM8C8DAECQXPAcOgAwjPAaNgAASAE-GhyAYgJ64f98
@@ -2698,17 +2700,19 @@ EMYg2SjDH-E-H8Yo-f39-f39xhDGINko-f39-f39-ckQxiDZKP39-f39-f3JEMYg2SjDH-oo-f39
 wAofySj9-f39-f3GEMYgziggwiggwyjDH9I7wR-AO8EfzwofCsAfySj9-f39-f3GEMYAAAAAAAAA
 AQ--
 :: map/.info.pod
---[[pod,created="2026-03-27 05:34:19",modified="2026-04-30 20:13:32"]]
+--[[pod,created="2026-03-27 05:34:19",modified="2026-05-18 11:34:29"]]
 :: map/0.map
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAxLTE3IDEwOjM1OjQ4Iixtb2RpZmllZD0iMjAyNi0w
-NC0yNiAxMTo1MDoxMiIscmV2aXNpb249MzVdXWx6NAC1AAAAjgEAAPQKe3tibXA9cHh1AEyAHhEA
-OwAAHgEABQAAAAYAEQcGAHQAAgADAAABFQBfBAAAAAgeAAYPOQAIfwEAAAEIAAEhAAcRAFoAHwMh
-AAcfBRsAIiEACLQADzkAFkQDAQACBgAXBQwAIAABIwEjFwE-APYNHQAALGhpZGRlbj1mYWxzZSxw
-YW5feD0tNTguNgEAETcXAPIAeT0tMjQsdGlsZV9oPTMyCgAQdwoAoHpvb209MC41fX0-
+NS0xOCAxMToyNjozOCIscmV2aXNpb249NDhdXWx6NAD-AAAANAIAAPEPe3tibXA9cHh1AEyAPCIA
+-wAA-6QdAQAdAAAAAQAFBgCHAAgAAAkAAAoJADIBAAcbADECAAMJAAkwANEAAAARAAASAAATAAAU
+DwAPMAALIAqgJAAgCGAJACATYAkADzAACxEJMAAmCWAJAA8wAAsRCCcAJgpgCQAPMAAKFQGNACAS
+YDAAD70AEQKNAA_9ABcCjQAvFGC9ABEfA7QAB3ECAQACAAADBgAXBQwAgAABAJUAABcBKgAhAQHW
+AfULLCxoaWRkZW49ZmFsc2UscGFuX3g9LTI2LjYBABE3FgDieT0tMjQsdGlsZV9oPTgJAOB3PTgs
+em9vbT0wLjV9fQ==
 :: scenes/.info.pod
---[[pod,created="2026-04-15 07:48:07",modified="2026-04-30 20:13:32"]]
+--[[pod,created="2026-04-15 07:48:07",modified="2026-05-18 11:34:29"]]
 :: sfx/.info.pod
---[[pod,created="2026-03-27 05:34:19",modified="2026-04-30 20:13:32"]]
+--[[pod,created="2026-03-27 05:34:19",modified="2026-05-18 11:34:29"]]
 :: sfx/0.sfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA3LTMxIDA4OjMwOjI4Iixtb2RpZmllZD0iMjAyNi0w
 NC0zMCAwODoyNzoyNiIscmV2aXNpb249MTddXWx6NADaAAAAVwoAAPAbcHh1AAMoAAAEAAQPQBAC

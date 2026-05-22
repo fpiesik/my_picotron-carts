@@ -1,0 +1,529 @@
+picotron cartridge // www.picotron.net
+version 2
+
+:: gfx/
+:: map/
+:: sfx/
+:: main.lua
+--[[pod_format="raw",created="2026-05-19 07:36:26",modified="2026-05-22 08:37:54",revision=4]]
+-- begriffe-trainer musik 5
+-- multiple-choice-lernspiel fuer picotron
+-- ohne window-definition, damit es im vollbildmodus laeuft
+
+state = "menu"
+
+menu_items = {
+  "Songteile",
+  "Musikproduktion",
+  "Gitarre",
+  "Gemischter Test"
+}
+
+menu_sel = 1
+question_index = 1
+selected = 1
+score = 0
+answered = false
+feedback = ""
+
+cards = {
+  -- SONGTEILE
+  {
+    area="Songteile",
+    term="Intro",
+    clue="Anfang eines Liedes. Oft hoert man nur Musik und noch keinen Gesang.",
+    short_def="Der Anfang eines Liedes.",
+    info="Das Intro stimmt die Zuhoerer auf das Lied ein."
+  },
+  {
+    area="Songteile",
+    term="Strophe",
+    clue="Dieser Teil erzaehlt meistens eine Geschichte oder beschreibt eine Situation.",
+    short_def="Ein Teil, in dem sich der Text oft veraendert.",
+    info="Die Melodie bleibt in Strophen oft gleich, aber der Text veraendert sich."
+  },
+  {
+    area="Songteile",
+    term="Vor-Refrain",
+    clue="Kurzer Teil zwischen Strophe und Refrain. Er baut Spannung auf.",
+    short_def="Ein kurzer Spannungsteil vor dem Refrain.",
+    info="Der Vor-Refrain bereitet den Chorus vor."
+  },
+  {
+    area="Songteile",
+    term="Refrain",
+    clue="Wichtigster und meist eingaengiger Teil. Er wiederholt sich mehrmals.",
+    short_def="Der wichtigste und meist eingaengige Teil.",
+    info="Im Refrain steht oft die Hauptaussage des Songs."
+  },
+  {
+    area="Songteile",
+    term="Bridge",
+    clue="Dieser Abschnitt unterscheidet sich deutlich von den anderen Teilen.",
+    short_def="Ein Zwischenteil mit anderer Stimmung.",
+    info="Die Bridge bringt oft neue Musik oder eine andere Stimmung."
+  },
+  {
+    area="Songteile",
+    term="Outro",
+    clue="Schluss eines Liedes. Die Musik endet oder wird ausgeblendet.",
+    short_def="Der Schluss eines Liedes.",
+    info="Das Outro sorgt dafuer, dass das Lied zu einem klaren Ende kommt."
+  },
+
+  -- MUSIKPRODUKTION
+  {
+    area="Musikproduktion",
+    term="Instrumentierung",
+    clue="Hier geht es darum, welche Instrumente in einem Song vorkommen.",
+    short_def="Welche Instrumente zum Einsatz kommen.",
+    info="Instrumentierung bedeutet: Welche Instrumente hoert man?"
+  },
+  {
+    area="Musikproduktion",
+    term="Harmonie",
+    clue="Mehrere Toene klingen gleichzeitig gut zusammen, zum Beispiel in Akkorden.",
+    short_def="Mehrere Toene klingen gleichzeitig zusammen.",
+    info="Harmonie entsteht zum Beispiel durch Akkorde."
+  },
+  {
+    area="Musikproduktion",
+    term="Melodie",
+    clue="Eine Folge einzelner Toene, die man oft mitsingen kann.",
+    short_def="Eine wiedererkennbare Folge einzelner Toene.",
+    info="Die Melodie erkennt man oft besonders deutlich wieder."
+  },
+  {
+    area="Musikproduktion",
+    term="Original",
+    clue="Die urspruengliche Version eines Songs.",
+    short_def="Die urspruengliche Version eines Songs.",
+    info="Am Original kann man andere Versionen vergleichen."
+  },
+  {
+    area="Musikproduktion",
+    term="Remix",
+    clue="Eine veraenderte Version eines Songs.",
+    short_def="Eine veraenderte Version eines Songs.",
+    info="Ein Remix veraendert zum Beispiel Beat, Tempo oder Instrumentierung."
+  },
+  {
+    area="Musikproduktion",
+    term="Pattern",
+    clue="Ein kleines musikalisches Muster, das sich wiederholt.",
+    short_def="Ein wiederholtes musikalisches Muster.",
+    info="Ein Pattern kann zum Beispiel ein Drumrhythmus oder eine Bassfigur sein."
+  },
+  {
+    area="Musikproduktion",
+    term="Rhythmus",
+    clue="Die zeitliche Ordnung von Toenen, Klaengen und Pausen.",
+    short_def="Die Ordnung von Klaengen und Pausen in der Zeit.",
+    info="Rhythmus bestimmt, wann Klaenge und Pausen kommen."
+  },
+  {
+    area="Musikproduktion",
+    term="BPM",
+    clue="Die Geschwindigkeik einer Musik gemessen in Schlaege pro Minute",
+    short_def="Schlaege pro Minute",
+    info="Ein Song kann z.B. 120 BPM schnell sein. Ein Schlag dauert dann eine halbe Sekunde"
+  },
+
+  -- GITARRE
+  {
+    area="Gitarre",
+    term="Korpus",
+    clue="Der grosse hohle Teil der Gitarre, der den Ton verstaerkt.",
+    short_def="Der grosse Klangkoerper der Gitarre.",
+    info="Der hohle Korpus verstaerkt den Ton."
+  },
+  {
+    area="Gitarre",
+    term="Hals",
+    clue="Der lange Teil der Gitarre, auf dem die Saiten entlanglaufen.",
+    short_def="Der lange Teil zwischen Korpus und Kopf.",
+    info="Auf dem Hals befinden sich Griffbrett, Buende und Saiten."
+  },
+  {
+    area="Gitarre",
+    term="Kopf",
+    clue="Der obere Teil der Gitarre, an dem die Stimmwirbel sitzen.",
+    short_def="Der obere Teil mit den Stimmwirbeln.",
+    info="Am Kopf werden die Saiten befestigt und gestimmt."
+  },
+  {
+    area="Gitarre",
+    term="Saite",
+    clue="Wenn man sie zupft, beginnt sie zu schwingen und erzeugt einen Ton.",
+    short_def="Sie schwingt und erzeugt einen Ton.",
+    info="Die Schwingung der Saite erzeugt den Ton."
+  },
+  {
+    area="Gitarre",
+    term="Steg",
+    clue="Ueber ihn gelangt die Schwingung der Saite in den Korpus.",
+    short_def="Er uebertraegt die Schwingung zum Korpus.",
+    info="Der Steg leitet die Schwingung der Saite weiter."
+  },
+  {
+    area="Gitarre",
+    term="Bundstaebe",
+    clue="Sie helfen dabei, die schwingende Laenge der Saite zu veraendern.",
+    short_def="Sie veraendern die schwingende Saitenlaenge.",
+    info="Durch Bundstaebe kann man verschiedene Tonhoehen spielen."
+  },
+  {
+    area="Gitarre",
+    term="Stimmwirbel",
+    clue="Mit ihnen veraendert man die Saitenspannung beim Stimmen.",
+    short_def="Mit ihnen stimmt man die Saiten.",
+    info="Stimmwirbel veraendern die Spannung der Saiten."
+  },
+  {
+    area="Gitarre",
+    term="Saitenspannung",
+    clue="Wenn sie groesser wird, klingt der Ton hoeher.",
+    short_def="Sie beeinflusst, ob ein Ton hoch oder tief klingt.",
+    info="Eine straffere Saite klingt hoeher."
+  },
+  {
+    area="Gitarre",
+    term="Saitenlaenge",
+    clue="Wenn sie kuerzer wird, klingt der Ton hoeher.",
+    short_def="Sie beeinflusst die Tonhoehe einer Saite.",
+    info="Eine kuerzere schwingende Saite klingt hoeher."
+  },
+  {
+    area="Gitarre",
+    term="Saitendicke",
+    clue="Sie ist ein Grund dafuer, dass Saiten unterschiedlich hoch oder tief klingen.",
+    short_def="Sie beeinflusst die Tonhoehe.",
+    info="Dickere Saiten klingen meistens tiefer als duennere Saiten."
+  }
+}
+
+active_cards = {}
+quiz = {}
+
+function _init()
+  math.randomseed(math.floor(time() * 1000))
+end
+
+function _update()
+  if state == "menu" then
+    update_menu()
+  elseif state == "quiz" then
+    update_quiz()
+  elseif state == "result" then
+    update_result()
+  end
+end
+
+function _draw()
+  cls(1)
+
+  if state == "menu" then
+    draw_menu()
+  elseif state == "quiz" then
+    draw_quiz()
+  elseif state == "result" then
+    draw_result()
+  end
+end
+
+function update_menu()
+  if btnp(2) then menu_sel -= 1 end
+  if btnp(3) then menu_sel += 1 end
+
+  if menu_sel < 1 then menu_sel = #menu_items end
+  if menu_sel > #menu_items then menu_sel = 1 end
+
+  if btnp(4) or keyp("enter") then
+    start_game(menu_items[menu_sel])
+  end
+end
+
+function update_quiz()
+  local q = quiz[question_index]
+
+  if not answered then
+    if btnp(2) then selected -= 1 end
+    if btnp(3) then selected += 1 end
+
+    if selected < 1 then selected = 3 end
+    if selected > 3 then selected = 1 end
+
+    if btnp(4) or keyp("enter") then
+      answered = true
+
+      if selected == q.correct_index then
+        score += 1
+        feedback = "Richtig!"
+      else
+        feedback = "Leider falsch."
+      end
+    end
+  else
+    if btnp(4) or keyp("enter") then
+      question_index += 1
+      selected = 1
+      answered = false
+      feedback = ""
+
+      if question_index > #quiz then
+        state = "result"
+      end
+    end
+  end
+end
+
+function update_result()
+  if btnp(4) or keyp("enter") then
+    state = "menu"
+  end
+end
+
+function start_game(area)
+  active_cards = {}
+
+  for i=1,#cards do
+    if area == "Gemischter Test" or cards[i].area == area then
+      table.insert(active_cards, cards[i])
+    end
+  end
+
+  shuffle(active_cards)
+
+  quiz = {}
+
+  for i=1,#active_cards do
+    table.insert(quiz, make_question(active_cards[i]))
+  end
+
+  shuffle(quiz)
+
+  question_index = 1
+  selected = 1
+  score = 0
+  answered = false
+  feedback = ""
+  state = "quiz"
+end
+
+function make_question(card)
+  local mode = math.random(2)
+  local q = {}
+
+  if mode == 1 then
+    q.question = "Welcher Begriff passt?\n\n"..card.clue
+    q.correct_answer = card.term
+    q.info = card.info
+    q.answers = {
+      card.term,
+      random_other_term(card.term),
+      random_other_term(card.term)
+    }
+  else
+    q.question = "Welche Erklaerung passt zu:\n\n"..card.term
+    q.correct_answer = card.short_def
+    q.info = card.info
+    q.answers = {
+      card.short_def,
+      random_other_def(card.short_def),
+      random_other_def(card.short_def)
+    }
+  end
+
+  remove_duplicate_answers(q)
+  shuffle(q.answers)
+
+  for i=1,#q.answers do
+    if q.answers[i] == q.correct_answer then
+      q.correct_index = i
+    end
+  end
+
+  return q
+end
+
+function random_other_term(correct)
+  local possible = {}
+
+  for i=1,#active_cards do
+    if active_cards[i].term != correct then
+      table.insert(possible, active_cards[i].term)
+    end
+  end
+
+  return possible[math.random(#possible)]
+end
+
+function random_other_def(correct)
+  local possible = {}
+
+  for i=1,#active_cards do
+    if active_cards[i].short_def != correct then
+      table.insert(possible, active_cards[i].short_def)
+    end
+  end
+
+  return possible[math.random(#possible)]
+end
+
+function remove_duplicate_answers(q)
+  local clean = {}
+
+  table.insert(clean, q.correct_answer)
+
+  while #clean < 3 do
+    local candidate
+
+    if q.answers[1] == q.correct_answer then
+      if string.find(q.question, "Begriff") then
+        candidate = random_other_term(q.correct_answer)
+      else
+        candidate = random_other_def(q.correct_answer)
+      end
+    end
+
+    local duplicate = false
+    for i=1,#clean do
+      if clean[i] == candidate then
+        duplicate = true
+      end
+    end
+
+    if not duplicate then
+      table.insert(clean, candidate)
+    end
+  end
+
+  q.answers = clean
+end
+
+function shuffle(t)
+  for i=#t,2,-1 do
+    local j = math.random(i)
+    t[i], t[j] = t[j], t[i]
+  end
+end
+
+function draw_menu()
+  print("BEGRIFFE-TRAINER MUSIK 5", 110, 30, 7)
+  print("Waehle einen Bereich:", 145, 65, 6)
+
+  for i=1,#menu_items do
+    local y = 95 + i*24
+
+    if i == menu_sel then
+      rectfill(125, y-4, 355, y+14, 12)
+      print("> "..menu_items[i], 145, y, 0)
+    else
+      print("  "..menu_items[i], 145, y, 7)
+    end
+  end
+
+  print("Pfeile: Auswahl   X/Enter: Start", 115, 245, 6)
+end
+
+function draw_quiz()
+  local q = quiz[question_index]
+
+  print("Frage "..question_index.." von "..#quiz, 20, 12, 6)
+  print("Punkte: "..score, 385, 12, 6)
+
+  rectfill(20, 32, 460, 105, 5)
+  print_wrapped(q.question, 35, 45, 52, 7)
+
+  for i=1,3 do
+    local y = 118 + i*34
+
+    if i == selected and not answered then
+      rectfill(30, y-5, 450, y+25, 12)
+      print_wrapped(string.char(64+i)..": "..q.answers[i], 45, y, 48, 0)
+    else
+      print_wrapped(string.char(64+i)..": "..q.answers[i], 45, y, 48, 7)
+    end
+  end
+
+  if answered then
+    rectfill(20, 220, 460, 263, 3)
+
+    print(feedback, 35, 228, 7)
+
+    if selected != q.correct_index then
+      print("Richtig: "..q.answers[q.correct_index], 150, 228, 10)
+    end
+
+    print_wrapped(q.info, 35, 244, 55, 6)
+  else
+    print("Pfeile: Antwort waehlen   X/Enter: bestaetigen", 65, 250, 6)
+  end
+end
+
+function draw_result()
+  print("ERGEBNIS", 205, 55, 7)
+
+  local total = #quiz
+  print("Du hast "..score.." von "..total.." Punkten erreicht.", 135, 95, 7)
+
+  local percent = math.floor(score / total * 100)
+
+  if percent >= 85 then
+    print("Sehr gut! Du bist bereit fuer die Musikarbeit.", 90, 135, 10)
+  elseif percent >= 60 then
+    print("Schon gut! Wiederhole noch ein paar Begriffe.", 95, 135, 9)
+  else
+    print("Uebe die Begriffe noch einmal in Ruhe.", 110, 135, 8)
+  end
+
+  print("X/Enter: Zurueck zum Menue", 145, 210, 6)
+end
+
+function print_wrapped(txt, x, y, max_chars, col)
+  local line = ""
+  local yy = y
+
+  for word in string.gmatch(txt, "%S+") do
+    if #line + #word + 1 > max_chars then
+      print(line, x, yy, col)
+      yy += 10
+      line = word
+    else
+      if line == "" then
+        line = word
+      else
+        line = line.." "..word
+      end
+    end
+  end
+
+  if line != "" then
+    print(line, x, yy, col)
+  end
+end
+:: .info.pod
+--[[pod,created="2026-04-16 19:10:37",modified="2026-05-22 08:37:54",runtime=26,workspaces={{location="main.lua#121",workspace_index=1},{location="gfx/0.gfx",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4}}]]
+:: gfx/.info.pod
+--[[pod,created="2026-04-16 19:10:37",modified="2026-05-22 08:37:54"]]
+:: gfx/0.gfx
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAxLTE3IDEwOjM1OjQ4Iixtb2RpZmllZD0iMjAyNS0w
+MS0xNyAxMDozNzo0NCIscmV2aXNpb249Ml1dbHo0AH4AAAASMQAA8yF7WzBdPXtibXA9cHh1AEMg
+EBAE8FYHEAfAF9AXwAcQB-BWLGZsYWdzPTAscGFuX3gIAMt5PTAsem9vbT04fSw_AB-wMQD-----
+-----------------------------------------------------------XUG09OH19
+:: map/.info.pod
+--[[pod,created="2026-04-16 19:10:37",modified="2026-05-22 08:37:54"]]
+:: map/0.map
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAxLTE3IDEwOjM1OjQ4Iixtb2RpZmllZD0iMjAyNi0w
+NS0xOSAwNzozNjoxOSIscmV2aXNpb249Ml1dbHo0AEwAAABQAAAA8Rx7e2JtcD1weHUATIAgIAD-
+AAD---8DLGhpZGRlbj1mYWxzZSxwYW5feD0wCADSeT0wLHRpbGVfaD0xNgoAEHcKAIB6b29tPTF9
+fQ==
+:: sfx/.info.pod
+--[[pod,created="2026-04-16 19:10:37",modified="2026-05-22 08:37:54"]]
+:: sfx/0.sfx
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA3LTMxIDA4OjMwOjI4Iixtb2RpZmllZD0iMjAyNS0w
+Ny0zMSAwODozMDoyOCIscmV2aXNpb249MF1dbHo0AKAAAAALCgAA-zBweHUAAygAAAQABA9AEAIO
+AAGgASACoA4ADxAADfDKAQIDQA8PkAQFBgdADJAICQoLQAyQDwwPDQ8ODEAM8P8BAOv-J6oBEAYP
+MBABIAEgAfAAAhACDhABIA8hIAEwD0Dwww8oD--wxg-4Cg--D4AP9w8NAfAJARAGDjAA------_9
+H-8BAKzPyA9AAA8QQP--sPD-AQD-6lD-----KQ==
+:: [eoc]

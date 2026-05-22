@@ -5,7 +5,7 @@ version 2
 :: map/
 :: sfx/
 :: main.lua
---[[pod_format="raw",created="2026-05-19 07:36:26",modified="2026-05-22 08:37:54",revision=4]]
+--[[pod_format="raw",created="2026-05-19 07:36:26",modified="2026-05-22 08:38:57",revision=5]]
 -- begriffe-trainer musik 5
 -- multiple-choice-lernspiel fuer picotron
 -- ohne window-definition, damit es im vollbildmodus laeuft
@@ -125,7 +125,7 @@ cards = {
     area="Musikproduktion",
     term="BPM",
     clue="Die Geschwindigkeik einer Musik gemessen in Schlaege pro Minute",
-    short_def="Schlaege pro Minute",
+    short_def="Das Tempo gemessen in Schlaege pro Minute",
     info="Ein Song kann z.B. 120 BPM schnell sein. Ein Schlag dauert dann eine halbe Sekunde"
   },
 
@@ -503,23 +503,23 @@ function print_wrapped(txt, x, y, max_chars, col)
   end
 end
 :: .info.pod
---[[pod,created="2026-04-16 19:10:37",modified="2026-05-22 08:37:54",runtime=26,workspaces={{location="main.lua#121",workspace_index=1},{location="gfx/0.gfx",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4}}]]
+--[[pod,created="2026-04-16 19:10:37",modified="2026-05-22 08:46:29",runtime=26,workspaces={{location="main.lua#120",workspace_index=1},{location="gfx/0.gfx",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4}}]]
 :: gfx/.info.pod
---[[pod,created="2026-04-16 19:10:37",modified="2026-05-22 08:37:54"]]
+--[[pod,created="2026-04-16 19:10:37",modified="2026-05-22 08:46:29"]]
 :: gfx/0.gfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAxLTE3IDEwOjM1OjQ4Iixtb2RpZmllZD0iMjAyNS0w
 MS0xNyAxMDozNzo0NCIscmV2aXNpb249Ml1dbHo0AH4AAAASMQAA8yF7WzBdPXtibXA9cHh1AEMg
 EBAE8FYHEAfAF9AXwAcQB-BWLGZsYWdzPTAscGFuX3gIAMt5PTAsem9vbT04fSw_AB-wMQD-----
 -----------------------------------------------------------XUG09OH19
 :: map/.info.pod
---[[pod,created="2026-04-16 19:10:37",modified="2026-05-22 08:37:54"]]
+--[[pod,created="2026-04-16 19:10:37",modified="2026-05-22 08:46:29"]]
 :: map/0.map
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAxLTE3IDEwOjM1OjQ4Iixtb2RpZmllZD0iMjAyNi0w
 NS0xOSAwNzozNjoxOSIscmV2aXNpb249Ml1dbHo0AEwAAABQAAAA8Rx7e2JtcD1weHUATIAgIAD-
 AAD---8DLGhpZGRlbj1mYWxzZSxwYW5feD0wCADSeT0wLHRpbGVfaD0xNgoAEHcKAIB6b29tPTF9
 fQ==
 :: sfx/.info.pod
---[[pod,created="2026-04-16 19:10:37",modified="2026-05-22 08:37:54"]]
+--[[pod,created="2026-04-16 19:10:37",modified="2026-05-22 08:46:29"]]
 :: sfx/0.sfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA3LTMxIDA4OjMwOjI4Iixtb2RpZmllZD0iMjAyNS0w
 Ny0zMSAwODozMDoyOCIscmV2aXNpb249MF1dbHo0AKAAAAALCgAA-zBweHUAAygAAAQABA9AEAIO

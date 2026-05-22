@@ -1859,11 +1859,11 @@ function create_hub_scene()
 	return hub
 end
 :: .info.pod
---[[pod,created="2026-03-27 05:34:19",modified="2026-05-18 11:34:29",runtime=26,workspaces={{location="main.lua#16",workspace_index=1},{location="Konzept.lua#11",workspace_index=1},{location="core/app.lua#17",workspace_index=1},{location="core/sfxdata.lua#104",workspace_index=1},{location="core/scene_manager.lua#11",workspace_index=1},{location="core/save.lua#9",workspace_index=1},{location="core/input.lua#64",workspace_index=1},{location="scenes/hub.lua#71",workspace_index=1},{location="games/collector.lua#117",workspace_index=1},{location="games/notenkoffer.lua#105",workspace_index=1},{location="games/whoshigher.lua#5",workspace_index=1},{location="games/dumtak.lua#1077",workspace_index=1},{location="games/battlesound.lua#54",workspace_index=1},{location="games/sfxtest.lua#9",workspace_index=1},{location="gfx/0.gfx#0",workspace_index=2},{location="gfx/1.gfx#11",workspace_index=2},{location="gfx/2.gfx#4",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4}}]]
+--[[pod,created="2026-03-27 05:34:19",modified="2026-05-22 09:03:43",runtime=26,workspaces={{location="main.lua#16",workspace_index=1},{location="Konzept.lua#11",workspace_index=1},{location="core/app.lua#17",workspace_index=1},{location="core/sfxdata.lua#104",workspace_index=1},{location="core/scene_manager.lua#11",workspace_index=1},{location="core/save.lua#9",workspace_index=1},{location="core/input.lua#64",workspace_index=1},{location="scenes/hub.lua#71",workspace_index=1},{location="games/collector.lua#117",workspace_index=1},{location="games/notenkoffer.lua#105",workspace_index=1},{location="games/whoshigher.lua#5",workspace_index=1},{location="games/dumtak.lua#1077",workspace_index=1},{location="games/battlesound.lua#54",workspace_index=1},{location="games/sfxtest.lua#9",workspace_index=1},{location="gfx/0.gfx#1",workspace_index=2},{location="gfx/1.gfx#11",workspace_index=2},{location="gfx/2.gfx#4",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4}}]]
 :: core/.info.pod
---[[pod,created="2026-04-15 07:46:04",file_item={},modified="2026-05-18 11:34:29"]]
+--[[pod,created="2026-04-15 07:46:04",file_item={},modified="2026-05-22 09:03:43"]]
 :: games/.info.pod
---[[pod,created="2026-04-15 07:48:42",modified="2026-05-18 11:34:29"]]
+--[[pod,created="2026-04-15 07:48:42",modified="2026-05-22 09:03:43"]]
 :: games/dumtak.lua
 b64$LS1bW3BvZF9mb3JtYXQ9InJhdyIsY3JlYXRlZD0iMjAyNi0wNC0yNSAwNzozMjowOSIsbW9k
 aWZpZWQ9IjIwMjYtMDQtMjYgMDg6MTU6NDAiLHJldmlzaW9uPTc1XV0KZnVuY3Rpb24gY3JlYXRl
@@ -2459,20 +2459,23 @@ IiBvciBzZWxmLnN0YXRlID09ICJsaXN0ZW4iIHRoZW4KICAgICAgc2VsZi5kcGFkOmRydygpCiAg
 ICBlbmQKCiAgICBzZWxmLmdtbzpkcncoc2VsZikKICAgIHNlbGYuZmRiOmRydyhzZWxmKQogIGVu
 ZAoKICBmdW5jdGlvbiBnYW1lOmxlYXZlKGFwcCkKICBlbmQKCiAgcmV0dXJuIGdhbWUKZW5k
 :: gfx/.info.pod
---[[pod,created="2026-03-27 05:34:19",file_item={},modified="2026-05-18 11:34:29"]]
+--[[pod,created="2026-03-27 05:34:19",file_item={},modified="2026-05-22 09:03:43"]]
 :: gfx/0.gfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAxLTE3IDEwOjM1OjQ4Iixtb2RpZmllZD0iMjAyNi0w
-NS0xOCAxMToyNToxOCIscmV2aXNpb249MzFdXWx6NAArAgAAlTMAAPMhe1swXT17Ym1wPXB4dQBD
-IAgIBPACBxAHQBdQF0AHEAfwAixmbGFncz0wLHBhbl94CADHeT0wLHpvb209N30sPgDwBBAQBPA0
-d3B3cBc-FhdwFw4fEQ4HABAdBgCPPhdwd3B38DRQABmQCAgE9wI-Fjc_AgAf94sAGltAQATw-wEA
-HwBBAAsfM0EAOwANAR-wMQALHzgxAF_h-AHvDwwuDE4MDgIAPy4Mrg4ABu-u-AEeLxAeLS4MDgwe
-LQgAA1YuDD4MPggAL-wAjwAdQwD-DwR4ADVeDD4GAAAQAEH_B-wAgQBMHi0uLQYAET5xABFOBgAf
-HncAIOTvDyxuHD4MEAxODBAMLggAARQAEe76ACAMLnsAbw4MHgwuLQgAAwF7AAQIAC-8AesBHg8x
-AN0PUgMCD3IAHg8xAP------35H8AeAMIAxADAACAD8gDKAOAAbP4PwBIC8QEC4gHCAuBgADUjAM
-MAwwBgAfDIcAHTMA8ARwAAgEAEHwB-wAdQBPEC4gLgYAAwJvABFABgAPpQgf4-ASHGAcMAwQDEAM
-EAwgCAChMBxgHPAD-AAgDHwATzAMIC4GAAMGegAfEHoAHDgc4AwCABzQEAAPKAIeDzEArxcMPwJP
--AHwwD8AHAkIAi-8AEAAHhcgQAAfEEAAIBEAxwEv8M5YAR4PMQD-------------------------
-------------------------gVBtPTh9fQ==
+NS0yMiAwODo1NDowOCIscmV2aXNpb249MzNdXWx6NADkAgAAnzQAAPMhe1swXT17Ym1wPXB4dQBD
+IAgIBPACBxAHQBdQF0AHEAfwAixmbGFncz0wLHBhbl94CADKeT0wLHpvb209N30sPgCxdh8YBm4G
+bgZOdk4IAB8eQAAcYPcCPxY3PgIAH-d7ABpbQEAE8P8BAB8AQQALHzNBADtfEBAE8PAxAAsfODEA
+X6H8Ae8PDC4MTgwOAgA-LgyuDgAG7_78AR4vEB4tLgwODB4tCAADVi4MPgw_CAAv-ACPAB1DAP8P
+BHgANV4MPgYAABAAQf4H-ACBAEweLS4tBgARPnEAEU4GAB8edwAg5O8PLG4cPgwQDE4MEAwuCAAB
+FAAR7voAIAwuewBvDgweDC4tCAADAXsABAgAL-wB6wEeDzEA3VAICASMb30CDgIAH25IABwxfJ8P
+owIXrgYAH45EAB1Dvw8MbgIAH648AB0QfzwAf14cXhxuDO48AB_-HF4QDE4QDE4c-gY9AB2gbw8M
+Dhw_HBAMLgQAAAwAAcEAD_oBf3AfDy8QHw8MwQMALgQBBAAC7QEvLnxMABzSfC8QLw8MDi8QLgwO
+LQQAER58Az8_DA5MAB4CmAAvDxAIAAUQL9oBHz5XAB8BQQAvDw8IAAUDsAAfHrAAIIYMLh8QHgwu
+HQQAAUwAH4xKAB0UD4sADwkACAOmAB_MUAIeDzEA----YJH8AeAMIAxADAACAD8gDKAOAAbP4PwB
+IC8QEC4gHCAuBgADUjAMMAwwBgAfDEkJHiPwBHAACAQAQfAH-AB1AE8QLiAuBgADAm8AEUAGAA_-
+CR-j8BIcYBwwDBAMQAwQDCAIAKEwHGAc8AP8ACAMfABPMAwgLgYAAwZ6AB8QegAcOBzgDAIAHNAQ
+AA8oAh4PMQCvFww-Ak-8AfDAPwAcCQgCL-wAQAAeFyBAAB8QQAAgEQDHAS-wzlgBHg8xAP------
+------------------------------------------_BUG09OH19
 :: gfx/1.gfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI2LTA0LTI1IDAzOjM3OjE3Iixtb2RpZmllZD0iMjAyNi0w
 NC0yNSAxOTo0MToxNCIscmV2aXNpb249MTFdXWx6NADPBAAA3jcAAPMhe1swXT17Ym1wPXB4dQBD
@@ -2700,19 +2703,19 @@ EMYg2SjDH-E-H8Yo-f39-f39xhDGINko-f39-f39-ckQxiDZKP39-f39-f3JEMYg2SjDH-oo-f39
 wAofySj9-f39-f3GEMYgziggwiggwyjDH9I7wR-AO8EfzwofCsAfySj9-f39-f3GEMYAAAAAAAAA
 AQ--
 :: map/.info.pod
---[[pod,created="2026-03-27 05:34:19",modified="2026-05-18 11:34:29"]]
+--[[pod,created="2026-03-27 05:34:19",modified="2026-05-22 09:03:43"]]
 :: map/0.map
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTAxLTE3IDEwOjM1OjQ4Iixtb2RpZmllZD0iMjAyNi0w
-NS0xOCAxMToyNjozOCIscmV2aXNpb249NDhdXWx6NAD-AAAANAIAAPEPe3tibXA9cHh1AEyAPCIA
--wAA-6QdAQAdAAAAAQAFBgCHAAgAAAkAAAoJADIBAAcbADECAAMJAAkwANEAAAARAAASAAATAAAU
-DwAPMAALIAqgJAAgCGAJACATYAkADzAACxEJMAAmCWAJAA8wAAsRCCcAJgpgCQAPMAAKFQGNACAS
-YDAAD70AEQKNAA_9ABcCjQAvFGC9ABEfA7QAB3ECAQACAAADBgAXBQwAgAABAJUAABcBKgAhAQHW
-AfULLCxoaWRkZW49ZmFsc2UscGFuX3g9LTI2LjYBABE3FgDieT0tMjQsdGlsZV9oPTgJAOB3PTgs
-em9vbT0wLjV9fQ==
+NS0yMiAwOTowMzoxOSIscmV2aXNpb249NThdXWx6NAALAQAAVAMAAPEKe3tibXA9cHh1AEyAPCIA
+PAEADQAAAAEACwYAAgwARA4AAAEMAPEFAgAAABAAABEAABIAABMAABQAABUVAA8tAAX-ARgAABkA
+ABoAABsAABwAAB0tAAYfCxgAHHAAFaAAHaAHYwBPYAAQYCQAA0EUoAAcJABPGWAAESQABEEToAAb
+JABPGmAAEiQABEESoAAaJABPG2AAEyQABEERoAAZJABPHGAAFCQABEEQoAAYJABfHWAAFWDwAP8L
+DxgAFxcpDAAfOQYAJfUNPAEALGhpZGRlbj1mYWxzZSxwYW5feD0tMjYuNgEAETcWAOJ5PS0yNCx0
+aWxlX2g9OAkAwHc9OCx6b29tPTF9fQ==
 :: scenes/.info.pod
---[[pod,created="2026-04-15 07:48:07",modified="2026-05-18 11:34:29"]]
+--[[pod,created="2026-04-15 07:48:07",modified="2026-05-22 09:03:43"]]
 :: sfx/.info.pod
---[[pod,created="2026-03-27 05:34:19",modified="2026-05-18 11:34:29"]]
+--[[pod,created="2026-03-27 05:34:19",modified="2026-05-22 09:03:43"]]
 :: sfx/0.sfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA3LTMxIDA4OjMwOjI4Iixtb2RpZmllZD0iMjAyNi0w
 NC0zMCAwODoyNzoyNiIscmV2aXNpb249MTddXWx6NADaAAAAVwoAAPAbcHh1AAMoAAAEAAQPQBAC
